@@ -13,7 +13,7 @@ const config = {
 let app;
 if (!firebase.apps.length) {
   firebase.initializeApp(config);
-}else {
+} else {
   firebase.app(); // if already initialized, use that one
 }
 const FirebaseClient = firebase.firestore(app);
