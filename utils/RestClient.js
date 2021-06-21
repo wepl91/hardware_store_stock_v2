@@ -1,5 +1,4 @@
 import {
-  observable,
   action,
 } from 'mobx'
 
@@ -11,7 +10,7 @@ export default class RESTClient {
   constructor() { }
 
   @action
-  authenticate(user, password, authPath = '/login') {}
+  authenticate(user, password, authPath = '/login') { }
 
   search(uriPath, filters = {}) {
     return new Promise((resolve, reject) => {
@@ -31,15 +30,33 @@ export default class RESTClient {
             resolve([])
           }
           snapshot.forEach(doc => {
-            let prod = Object.assign({}, doc.data(), { id: doc.id })
-            results.push(prod);
+            let item = {
+              ...doc.data(),
+              ...{ id: doc.id }
+            }
+            results.push(item);
           });
           resolve(results)
         })
     });
   }
 
-  get(uriPath, id = null) {}
+  get(uriPath, id = null) {
+    return new Promise((resolve, reject) => {
+      FirebaseClient
+        .collection(uriPath)
+        .doc(id)
+        .get()
+        .then(snapshot => {
+          const item = {
+            ...snapshot.data(),
+            ...{ id: snapshot.id }
+          };
+          resolve(item);
+        })
+        .catch((error) => reject(error))
+    })
+  }
 
   post(uriPath, item) {
     const created = moment();
@@ -57,10 +74,10 @@ export default class RESTClient {
     });
   }
 
-  put(uriPath, item, itemId = null) {}
+  put(uriPath, item, itemId = null) { }
 
   delete(uriPath, id) {
-    return new Promise( async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       await FirebaseClient.collection(uriPath).doc(id).delete();
       //await decrementCounter();
       resolve(id);

@@ -62,7 +62,7 @@ export default class Store {
   }
 
   @action
-  search(filters = {}, viewName = 'default', forceRefresh = false , apiPath = null) {
+  search(filters = {}, viewName = 'default', forceRefresh = false, apiPath = null) {
     const viewFullName = `${viewName}-${hashCode(JSON.stringify(filters))}-${this.appStore && this.appStore.loggedInUserKey}`;
     const view = this.view(viewFullName);
     const url = `${apiPath || this.modelRoot}`;
@@ -81,9 +81,7 @@ export default class Store {
           view.endUpdate();
           return view;
         })
-        .catch((error) => {
-          view.endUpdate(err);
-        });
+        .catch((error) => view.endUpdate(error));
     }
     return view;
   }
@@ -100,16 +98,12 @@ export default class Store {
     if (forceRefresh || item.needsUpdate()) {
       item.beginUpdate();
       this.adapter.get(apiPath || this.modelRoot, id, filters)
-        .then(
-          (res) => {
-            this.items.addOrUpdateModel(new ModelClass(res['results'] || res, this));
-            item.endUpdate();
-
-            onFetch && onFetch(item);
-          },
-          (err) => {
-            item.endUpdate(err);
-          });
+        .then((res) => {
+          this.items.addOrUpdateModel(new ModelClass(res, this));
+          item.endUpdate();
+          onFetch && onFetch(item);
+        })
+        .catch((error) => item.endUpdate(error))
     }
     return item;
   }

@@ -1,4 +1,4 @@
-import { observable, action, computed } from 'mobx';
+import { observable, action, computed, makeObservable } from 'mobx';
 import { statuses } from '../utils/constants';
 
 export default class Model {
@@ -9,11 +9,14 @@ export default class Model {
   onUpdateCallback;
 
   @observable attributes = new Map();
+  @observable status;
 
   constructor(attributes, store) {
     this.status = statuses.EMPTY;
     this.store = store;
     this.set(attributes);
+
+    makeObservable(this);
   }
 
   transformData(data) {
@@ -77,6 +80,7 @@ export default class Model {
 
   @action
   endUpdate(error) {
+    debugger
     if (error) {
       try {
         this.error  = error.message ? JSON.parse(error.message) : error;

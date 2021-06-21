@@ -1,5 +1,4 @@
-import { action, observable, computed } from 'mobx';
-import { useStaticRendering } from 'mobx-react';
+import { action, observable, computed, makeObservable } from 'mobx';
 import { RestClient, LocalStorageClient } from '../utils';
 import {
   UIStore,
@@ -43,6 +42,8 @@ export default class AppStore {
     } else {
       this.isLoading = false;
     }
+
+    makeObservable(this);
   }
 
   @action
