@@ -1,7 +1,9 @@
-import '../styles/globals.css'
-import '../styles/globals.css'
 import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
 import { AppStore } from '../stores';
+import '../styles/globals.css'
+import '../styles/globals.css'
+
 const StoreProvider = React.createContext();
 
 const MyApp = ({ Component, pageProps }) => {
@@ -12,12 +14,14 @@ const MyApp = ({ Component, pageProps }) => {
     <StoreProvider.Provider value={mobxStore}>
       <StoreProvider.Consumer>
         {value => {
-          const stores = value.stores || new Map();  
+          const stores = value.stores || new Map();
           return (
-            <Component
-              {...pageProps}
-              stores={Object.fromEntries(stores)}
-            />
+            <ChakraProvider>
+              <Component
+                {...pageProps}
+                stores={Object.fromEntries(stores)}
+              />
+            </ChakraProvider>
           )
         }}
       </StoreProvider.Consumer>
