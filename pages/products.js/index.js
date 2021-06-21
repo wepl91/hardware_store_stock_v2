@@ -37,7 +37,7 @@ class Products extends Component {
       },
       {
         label: 'Precio',
-        content: (data) => data.price ? `$${data.price}` : '-',
+        content: (data) => `$${data.price || '-'}`,
         align: 'center'
       },
       {
@@ -51,13 +51,17 @@ class Products extends Component {
   render() {
     const { products } = this.state;
     const { stores } = this.props;
+    const dataToRender = 
+      products?.isOk() ? 
+      products?.toArray() : 
+      stores?.products?.getDummy(10);
     return (
       <div>
         <Table
           isLoading={!products || !products.isOk()}
           withPagination
           columns={this.getColumns()}
-          data={products && products.isOk() ? products.toArray() : stores && stores.products && stores.products.getDummy(10)}
+          data={dataToRender}
         />
       </div>
     )
