@@ -10,6 +10,7 @@ import {
   Td,
   TableCaption,
   Skeleton,
+  Box,
 } from "@chakra-ui/react"
 
 const TableRow = ({ columns, data, index, isLoading, footerLabel }) => {
@@ -30,7 +31,7 @@ const TableRow = ({ columns, data, index, isLoading, footerLabel }) => {
         </Td>)}
     </Tr>);
 }
-const CustomTable = ({ columns, data, isLoading, footerLabel }) => {
+const CustomTable = ({ columns, data, isLoading, footerLabel, className }) => {
   const tableHeaders = (columns) => {
     return columns.map(column =>
       <Th key={`header-${column.label}`}>
@@ -38,29 +39,36 @@ const CustomTable = ({ columns, data, isLoading, footerLabel }) => {
       </Th>)
   }
   return (
-    <Table>
-      {footerLabel ? (
-        <TableCaption>
-          {footerLabel}
-        </TableCaption>
-      ): null}
-      <Thead>
-        <Tr>
-          {tableHeaders(columns)}
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data && data.map((element, index) => (
-          <TableRow
-            index={index}
-            key={element.id}
-            columns={columns}
-            data={element}
-            isLoading={isLoading}
-          />
-        ))}
-      </Tbody>
-    </Table>
+    <Box
+      className={className}
+      borderWidth="1px"
+      borderRadius="lg"
+      paddingTop="8px"
+    >
+      <Table>
+        {footerLabel ? (
+          <TableCaption>
+            {footerLabel}
+          </TableCaption>
+        ) : null}
+        <Thead>
+          <Tr>
+            {tableHeaders(columns)}
+          </Tr>
+        </Thead>
+        <Tbody>
+          {data && data.map((element, index) => (
+            <TableRow
+              index={index}
+              key={element.id}
+              columns={columns}
+              data={element}
+              isLoading={isLoading}
+            />
+          ))}
+        </Tbody>
+      </Table>
+    </Box>
   )
 };
 

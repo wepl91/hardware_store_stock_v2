@@ -6,8 +6,8 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import Table from '../../components/Table';
-import { 
-  Flex, 
+import {
+  Flex,
   Center,
   Button,
   Heading,
@@ -17,7 +17,7 @@ import moment from 'moment';
 
 import styles from './styles/List.module.scss';
 @observer
-class Products extends Component {
+class Providers extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -26,28 +26,19 @@ class Products extends Component {
   componentDidMount() {
     const { stores } = this.props;
     this.setState({
-      products: stores.products.search({}, 'products-list-view', true)
+      providers: stores.providers.search({}, 'providers-list-view', true)
     })
   }
 
   getColumns() {
     return ([
       {
-        label: 'Referencia',
-        content: (data) => `${data.reference}`,
-      },
-      {
         label: 'Nombre',
         content: (data) => data.name || '-',
       },
       {
-        label: 'Descripción',
-        content: (data) => data.description || '-',
-      },
-      {
-        label: 'Precio',
-        content: (data) => `$${data.price || '-'}`,
-        align: 'center'
+        label: 'Teléfono',
+        content: (data) => data.phone_number || '-',
       },
       {
         label: 'Fecha creación',
@@ -58,30 +49,30 @@ class Products extends Component {
   }
 
   render() {
-    const { products } = this.state;
+    const { providers } = this.state;
     const { stores, router } = this.props;
-    const dataToRender = 
-      products?.isOk() ? 
-      products?.toArray() : 
-      stores?.products?.getDummy(5);
+    const dataToRender =
+      providers?.isOk() ?
+        providers?.toArray() :
+        stores?.providers?.getDummy(5);
     return (
       <>
         <Flex justify="space-between">
           <Center h="75px">
-            <Heading as="h3" size="lg">Listado de productos</Heading>
+            <Heading as="h3" size="lg">Listado de proveedores</Heading>
           </Center>
           <Center h="75px">
             <Button
               colorScheme="teal"
-              onClick={() => router.push('/products/new')}
+              onClick={() => router.push('/providers/new')}
             >
-              Nuevo producto
+              Nuevo proveedor
             </Button>
           </Center>
         </Flex>
         <Table
-          className={styles['products-table']}
-          isLoading={!products || !products.isOk()}
+          className={styles['providers-table']}
+          isLoading={!providers || !providers.isOk()}
           withPagination
           columns={this.getColumns()}
           data={dataToRender}
@@ -91,4 +82,4 @@ class Products extends Component {
   }
 }
 
-export default withRouter(Products);
+export default withRouter(Providers);

@@ -3,6 +3,7 @@ import { RestClient, LocalStorageClient } from '../utils';
 import {
   UIStore,
   ProductsStore,
+  ProvidersStore,
 } from './';
 
 export default class AppStore {
@@ -21,6 +22,7 @@ export default class AppStore {
     this.stores = new Map();
 
     this.stores.set('products', new ProductsStore(this.APIClient, this));
+    this.stores.set('providers', new ProvidersStore(this.APIClient, this));
     this.stores.set('ui', new UIStore(this.localStorageClient, this));
 
     this.stores.forEach((store, key) => {

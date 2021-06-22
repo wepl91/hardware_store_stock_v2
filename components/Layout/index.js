@@ -3,11 +3,8 @@ import { observer } from 'mobx-react';
 
 const Layout = observer(({ children, stores }) => {
   return(
-    <div>
+    <div style={{padding: '40px'}}>
       {children}
-      <button
-        onClick={() => stores?.ui?.toggleMenu()}
-      >{stores?.ui?.openMenu ? 'Cerrar' : 'Abrir'}</button>
     </div>
   );
 }) 
