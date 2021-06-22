@@ -20,7 +20,6 @@ class ProductDetails extends Component {
   }
   render() {
     const { product } = this.state;
-    const { stores } = this.props;
     if (!product?.isOk()) {
       return (
         <div>
@@ -38,9 +37,6 @@ class ProductDetails extends Component {
     return (
       <div>
         <h1>{`Producto ${product?.id}`}</h1>
-        <button
-          onClick={() => stores?.ui?.toggleMenu()}
-        >{stores?.ui?.openMenu ? 'Cerrar' : 'Abrir'}</button>
       </div>
     )
   }

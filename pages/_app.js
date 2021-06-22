@@ -1,6 +1,7 @@
 import React from 'react';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppStore } from '../stores';
+import Layout from '../components/Layout';
 import '../styles/globals.css'
 import '../styles/globals.css'
 
@@ -15,12 +16,17 @@ const MyApp = ({ Component, pageProps }) => {
       <StoreProvider.Consumer>
         {value => {
           const stores = value.stores || new Map();
+          const storesObject = Object.fromEntries(stores);
           return (
             <ChakraProvider>
-              <Component
-                {...pageProps}
-                stores={Object.fromEntries(stores)}
-              />
+              <Layout
+                stores={storesObject}
+              >
+                <Component
+                  {...pageProps}
+                  stores={storesObject}
+                />
+              </Layout>
             </ChakraProvider>
           )
         }}
