@@ -97,8 +97,7 @@ export default class Collection {
   }
 
   @action
-  endUpdate(error) {
-    debugger
+  endUpdate(error) {   
     if (error) {
       this.error = error;
       this.status = statuses.ERROR;

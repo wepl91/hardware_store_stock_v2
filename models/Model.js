@@ -80,7 +80,6 @@ export default class Model {
 
   @action
   endUpdate(error) {
-    debugger
     if (error) {
       try {
         this.error  = error.message ? JSON.parse(error.message) : error;

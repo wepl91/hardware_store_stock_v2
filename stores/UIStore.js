@@ -1,10 +1,34 @@
-import { observable, action } from 'mobx';
+import { observable, action, makeObservable, runInAction } from 'mobx';
+import {
+  makePersistable,
+} from "mobx-persist-store";
+import Store from './Store'
+class UIStore extends Store {
+  @observable openMenu;
+  constructor(adapter, appStore) {
+    super(adapter, appStore);
+    this.adapter = adapter;
+    this.appStore = appStore;
+    makeObservable(this);
 
-class UIStore {
-  @observable searchOverlayOpen = false;
+    makePersistable(
+      this, 
+      { 
+        name: 'ui', 
+        properties: ['openMenu'], 
+        storage: process.browser && window.localStorage
+      }).then(
+        action((persistStore) => {
+          console.log(persistStore.isHydrated);
+        })
+      );
+  }
 
-  @action setSearchOverlayOpen(value) {
-    this.searchOverlayOpen = value;
+  @action
+  toggleMenu() {
+    runInAction(() => {
+      this.openMenu = !this.openMenu;
+    });
   }
 }
 
