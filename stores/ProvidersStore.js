@@ -1,7 +1,7 @@
 import { Provider } from '../models';
 import Store from './Store'
 
-export default class ProductsStore extends Store {
+export default class ProvidersStore extends Store {
   urlRoot = 'providers';
   model = Provider;
 

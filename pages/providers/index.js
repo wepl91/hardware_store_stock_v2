@@ -73,7 +73,6 @@ class Providers extends Component {
         <Table
           className={styles['providers-table']}
           isLoading={!providers || !providers.isOk()}
-          withPagination
           columns={this.getColumns()}
           data={dataToRender}
         />

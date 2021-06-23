@@ -118,6 +118,6 @@ export default class Model {
 
   @computed
   get isNew() {
-    return !this.has(this.primaryKey)
+    return !this?.attributes?.has(this.primaryKey)
   }
 }

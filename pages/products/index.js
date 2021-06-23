@@ -107,7 +107,6 @@ class Products extends Component {
         <Table
           className={styles['products-table']}
           isLoading={!products || !products.isOk()}
-          withPagination
           columns={this.getColumns()}
           data={dataToRender}
         />

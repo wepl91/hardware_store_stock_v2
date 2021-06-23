@@ -1,0 +1,22 @@
+.providers-header {
+  margin-top: 32px;
+  margin-bottom: 16px;
+}
+
+.no-providers {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    margin-top: 32px;
+    width: 30%;
+    height: 10%;
+  }
+}
+
+.no-providers-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 16px;
+}

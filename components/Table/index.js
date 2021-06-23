@@ -37,6 +37,7 @@ const CustomTable = ({ columns, data, isLoading, footerLabel, className }) => {
         {column.label}
       </Th>)
   }
+  debugger
   return (
     <Box
       className={className}
