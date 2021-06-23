@@ -13,10 +13,9 @@ export default class AppStore {
 
   constructor(args) {
     const isServer = typeof window === 'undefined';
-    const storedToken = !isServer && localStorage.getItem(this.api_token_key);
     const storedUser = !isServer && localStorage.getItem(this.logged_user_key);
 
-    this.APIClient = new RestClient("http://localhost:8080", storedToken);
+    this.APIClient = new RestClient();
     this.localStorageClient = new LocalStorageClient('hw_st');
 
     this.stores = new Map();

@@ -22,11 +22,10 @@ const TableRow = ({ columns, data, index, isLoading, footerLabel }) => {
   };
 
   const renderSkeleton = () => <Skeleton height="20px" />;
-
   return (
     <Tr>
       {columns.map(column =>
-        <Td key={`row-${column.label}`}>
+        <Td key={`row-${column.label}`} isNumeric={column.isNumeric}>
           {isLoading ? renderSkeleton() : renderContent(column.content)}
         </Td>)}
     </Tr>);
@@ -34,7 +33,7 @@ const TableRow = ({ columns, data, index, isLoading, footerLabel }) => {
 const CustomTable = ({ columns, data, isLoading, footerLabel, className }) => {
   const tableHeaders = (columns) => {
     return columns.map(column =>
-      <Th key={`header-${column.label}`}>
+      <Th key={`header-${column.label}`} isNumeric={column.isNumeric}>
         {column.label}
       </Th>)
   }

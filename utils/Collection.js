@@ -73,7 +73,7 @@ export default class Collection {
 
   @action
   add(model) {
-    this.items.set(model.id.toString(), model);
+    this.items.set(model?.id?.toString(), model);
   }
 
   @action
@@ -83,6 +83,7 @@ export default class Collection {
       let storedModel = this.items.get(modelID.toString());
       storedModel.set(model.attributes);
       storedModel.endUpdate();
+      this.endUpdate();
       return storedModel;
     } else {
       this.add(model);

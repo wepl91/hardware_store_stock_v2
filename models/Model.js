@@ -1,4 +1,4 @@
-import { observable, action, computed, makeObservable } from 'mobx';
+import { observable, action, computed, makeObservable, toJS } from 'mobx';
 import { statuses } from '../utils/constants';
 
 export default class Model {
@@ -13,21 +13,20 @@ export default class Model {
 
   constructor(attributes, store) {
     this.status = statuses.EMPTY;
+    makeObservable(this);
     this.store = store;
     this.set(attributes);
-
-    makeObservable(this);
   }
 
   transformData(data) {
-    if(data !== undefined && data.attributes !== undefined){
+    if (data !== undefined && data.attributes !== undefined) {
       return data.attributes;
     }
     return data;
   }
 
-  
-  get (attribute) {
+
+  get(attribute) {
     if (this.attributes.has(attribute)) {
       return this.attributes.get(attribute);
     }
@@ -58,11 +57,11 @@ export default class Model {
     return this.status == statuses.ERROR;
   }
 
-  toJS () {
+  toJS() {
     return toJS(this.attributes);
   }
 
-  modelDidUpdate() {}
+  modelDidUpdate() { }
 
   andThen(callback) {
     if (this.isOk()) {
@@ -82,41 +81,43 @@ export default class Model {
   endUpdate(error) {
     if (error) {
       try {
-        this.error  = error.message ? JSON.parse(error.message) : error;
+        this.error = error.message ? JSON.parse(error.message) : error;
         this.status = statuses.ERROR;
-      } 
+      }
       catch (err) {
         this.error = error
         this.status = statuses.ERROR;
       }
-      this.status = statuses.ERROR; 
+      this.status = statuses.ERROR;
       this.modelDidUpdate();
     } else {
       this.status = statuses.OK;
-      this.modelDidUpdate();  
+      this.modelDidUpdate();
     }
-    if ( this.onUpdateCallback ) {
+    if (this.onUpdateCallback) {
       this.onUpdateCallback(this, error);
       this.onUpdateCallback = null;
-    }    
+    }
   }
-  
+
   @action
-  afterSetData() {}
-  
+  afterSetData() { }
+
   @action
-  set (data = {}) {
-    const newAttributesMap = new Map(Object.entries(data));
-    this.attributes = new Map([...this.attributes, ...newAttributesMap]);
-    this.attributes.forEach( (value, key) => { if( this[key] === undefined ) Object.defineProperty(this, key, { 
+  set(data = {}) {
+    const newAttributesMap = data?.data_ || new Map(Object.entries(data));
+    this.attributes = this.attributes.merge(this.transformData(newAttributesMap));
+    this.attributes.forEach((value, key) => {
+      if (this[key] === undefined) Object.defineProperty(this, key, {
         set: (v) => this.attributes.set(key, v),
         get: (v) => this.get(key),
-      })} );
+      })
+    });
     this.afterSetData();
   }
 
   @computed
-  get isNew () {
+  get isNew() {
     return !this.has(this.primaryKey)
   }
 }

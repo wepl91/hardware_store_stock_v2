@@ -6,12 +6,17 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import Table from '../../components/Table';
-import { 
-  Flex, 
+import {
+  Flex,
   Center,
   Button,
   Heading,
+  IconButton,
 } from "@chakra-ui/react"
+import {
+  EditIcon,
+  DeleteIcon,
+} from '@chakra-ui/icons'
 
 import moment from 'moment';
 
@@ -31,6 +36,7 @@ class Products extends Component {
   }
 
   getColumns() {
+    const { router } = this.props;
     return ([
       {
         label: 'Referencia',
@@ -54,16 +60,35 @@ class Products extends Component {
         content: (data) => data.created_at ? moment(data.created_at).format('DD-MM-YYYY') : '-',
         align: 'center'
       },
+      {
+        label: 'Acciones  ',
+        isNumeric: true,
+        content: (data) => (
+          <>
+            <IconButton
+              variant="ghost"
+              colorScheme="teal"
+              icon={<EditIcon />}
+              onClick={() => router.push(`/products/${data?.id}`)}
+            />
+            <IconButton
+              variant="ghost"
+              colorScheme="red"
+              icon={<DeleteIcon />}
+            />
+          </>
+        )
+      }
     ]);
   }
 
   render() {
     const { products } = this.state;
     const { stores, router } = this.props;
-    const dataToRender = 
-      products?.isOk() ? 
-      products?.toArray() : 
-      stores?.products?.getDummy(5);
+    const dataToRender =
+      products?.isOk() ?
+        products?.toArray() :
+        stores?.products?.getDummy(5);
     return (
       <>
         <Flex justify="space-between">

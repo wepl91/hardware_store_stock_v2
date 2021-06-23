@@ -4,14 +4,20 @@ import {
   computed,
 } from 'mobx';
 
+import moment from 'moment';
+
 export default class Product extends Model {
   constructor(attributes, store) {
-    let defaultAttributes = { };
-    let attrs = {
-      ...defaultAttributes, 
-      ...attributes
+    let defaultAttributes = {
+      name: '',
+      reference: '',
+      price: '',
+      description: '',
+      created_at: moment(),
+      providers: new Array(),
     };
-
+  
+    let attrs = Object.assign(defaultAttributes, attributes);
     super(attrs, store);
   }
 

@@ -18,10 +18,9 @@ export default class Store {
   urlRoot = null;
 
   constructor(adapter, appStore) {
+    makeObservable(this);
     this.adapter = adapter;
     this.appStore = appStore;
-
-    makeObservable(this);
   }
 
   get modelRoot() {
@@ -88,16 +87,16 @@ export default class Store {
 
 
   @action
-  get(id, forceRefresh = false, onFetch = null, filters, apiPath = null) {
+  get(id, forceRefresh = false, onFetch = null) {
     const ModelClass = this.model;
     let item = this.items.find(id);
-    if (item === undefined) {
+    if (!item) {
       item = new ModelClass({ id: id }, this);
       this.items.add(item);
     }
     if (forceRefresh || item.needsUpdate()) {
       item.beginUpdate();
-      this.adapter.get(apiPath || this.modelRoot, id, filters)
+      this.adapter.get(this.modelRoot, id)
         .then((res) => {
           this.items.addOrUpdateModel(new ModelClass(res, this));
           item.endUpdate();
