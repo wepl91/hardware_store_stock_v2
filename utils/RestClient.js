@@ -6,6 +6,8 @@ import {
   FirebaseClient
 } from './Firebase';
 
+import moment from 'moment';
+
 export default class RESTClient {
   constructor() { }
 
@@ -65,8 +67,7 @@ export default class RESTClient {
       FirebaseClient.collection(uriPath)
         .add(item)
         .then(newItem => {
-          incrementCounter()
-            .then(response => resolve(newItem))
+          resolve(newItem);
         })
         .catch(err => {
           reject(err);
@@ -74,7 +75,21 @@ export default class RESTClient {
     });
   }
 
-  put(uriPath, item, itemId = null) { }
+  put(uriPath, item, itemId = null) {
+    const created = moment();
+    const itemObject = item.toJson();
+    itemObject['updated_at'] = created.toISOString();
+    return new Promise((resolve, reject) => {
+      FirebaseClient
+        .collection(uriPath)
+        .doc(itemObject.id)
+        .update(itemObject)
+        .then(() => {
+          resolve(item);
+        })
+        .catch((error) => reject(error));
+    })
+  }
 
   delete(uriPath, id) {
     return new Promise(async (resolve, reject) => {

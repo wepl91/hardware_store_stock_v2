@@ -29,12 +29,18 @@ export default class Product extends Model {
             .map(prov => (
               this.store.appStore.stores.get('providers').getNew(prov)
             ));
-      }
+      } else { this.providers = [] }
     }
   }
 
   @computed
   get cookedName() {
     return this.name;
+  }
+  
+  toJson() {
+    const jsonObject = Object.fromEntries(this.toJS());
+    jsonObject.providers = jsonObject.providers.map(p => Object.fromEntries(p.attributes));
+    return jsonObject;
   }
 }

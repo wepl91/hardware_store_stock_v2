@@ -13,7 +13,7 @@ import {
   Box,
 } from "@chakra-ui/react"
 
-const TableRow = ({ columns, data, index, isLoading, footerLabel }) => {
+const TableRow = ({ columns, data, index, isLoading, footerLabel, key }) => {
   const renderContent = (content) => {
     if (React.isValidElement(content)) return content;
     if (typeof content === 'string') return content
@@ -23,7 +23,7 @@ const TableRow = ({ columns, data, index, isLoading, footerLabel }) => {
 
   const renderSkeleton = () => <Skeleton height="20px" />;
   return (
-    <Tr>
+    <Tr key={`column-${index}-${key}`}>
       {columns.map(column =>
         <Td key={`row-${column.label}`} isNumeric={column.isNumeric}>
           {isLoading ? renderSkeleton() : renderContent(column.content)}
@@ -37,7 +37,6 @@ const CustomTable = ({ columns, data, isLoading, footerLabel, className }) => {
         {column.label}
       </Th>)
   }
-  debugger
   return (
     <Box
       className={className}
@@ -52,7 +51,7 @@ const CustomTable = ({ columns, data, isLoading, footerLabel, className }) => {
           </TableCaption>
         ) : null}
         <Thead>
-          <Tr>
+          <Tr key="header">
             {tableHeaders(columns)}
           </Tr>
         </Thead>

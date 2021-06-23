@@ -97,6 +97,11 @@ export default class Collection {
     this.status = statuses.BUSY;
   }
 
+  needsUpdate() {
+    if ( this.status == statuses.BUSY ) return false;
+    return this.status == statuses.EMPTY;
+  }
+
   @action
   endUpdate(error) {   
     if (error) {

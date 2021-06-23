@@ -114,27 +114,24 @@ export default class Store {
     if (model.isNew) {
       this.adapter.post(apiPath || this.modelRoot, model)
         .then((res) => {
-          if (res && res['results']) {
-            model.set(res['results'])
+          if (res) {
             this.items.addOrUpdateModel(model);
             model.endUpdate();
           }
-        },
-          (err) => {
-            model.endUpdate(err);
-          });
+        })
+        .catch((error) => {
+          model.endUpdate(error);
+        })
     } else {
       this.adapter.put(apiPath || this.modelRoot, model)
         .then((res) => {
-          if (res && res['results']) {
-            model.set(res['results'])
+          if (res) {
             this.items.addOrUpdateModel(model);
-            model.endUpdate();
           }
-        },
-          (err) => {
-            model.endUpdate(err);
-          });
+        })
+        .catch((error) => {
+          model.endUpdate(error);
+        })
 
     }
     return model;

@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Image from 'next/image'
 
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
 import { withRouter } from 'next/router'
 
@@ -13,46 +13,61 @@ import {
   Flex,
   Center,
   Text,
+  useDisclosure,
+  useToast
 } from '@chakra-ui/react';
 
 import {
-  EditIcon,
   DeleteIcon,
 } from '@chakra-ui/icons'
 
 import ProductForm from '../../components/ProductForm';
 import Table from '../../components/Table';
 import SelectTeam from '../../images/SelectTeam';
+import ProvidersSelectionModal from '../../components/ProviderSelectionModal';
 
 import moment from 'moment';
 
 import styles from './styles/Details.module.scss';
 
-@observer
-class ProductDetails extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isSaving: false,
-    };
-  }
+const ProductDetails = observer(({ stores, router }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
-  componentDidMount() {
-    const { stores, router } = this.props;
-    const productID = router?.query?.id;
-    this.setState({
-      product: stores.products.get(productID, true),
+  const [isSaving, setIsSaving] = useState(false);
+  const [product, setProduct] = useState(stores?.products?.getDummy(1));
+  const [providers, setProviders] = useState(stores?.providers?.getDummy(5));
+
+  const saveProduct = () => {
+    setIsSaving(true);
+    product.save().andThen((savedProduct, responseError) => {
+      if (!responseError) {
+        toast({
+          title: "Producto guardado",
+          description: "El producto ha sido guardado exitosamente!",
+          status: "success",
+          duration: 1500,
+          isClosable: true,
+          onCloseComplete: () => {
+            router.push('/products')
+          }
+        });
+      } else {
+        console.error(responseError);
+        toast({
+          title: "Upps!",
+          description: "Hubo un inconveniente al guardar el producto!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+        setIsSaving(false);
+      }
     })
   }
 
-  saveProduct() {
-    this.setState({
-      isSaving: true
-    })
-  }
-
-  getProvidersColumns() {
-    return ([
+  const getProvidersColumns = () => (
+    [
       {
         label: 'Nombre',
         content: (data) => `${data.name}`,
@@ -78,17 +93,20 @@ class ProductDetails extends Component {
             <IconButton
               variant="ghost"
               colorScheme="red"
+              onClick={() => {
+                const newProviders = product.providers.filter(pp => pp.id !== data.id);
+                product.providers = newProviders;
+                setProduct(product);
+              }}
               icon={<DeleteIcon />}
             />
           </>
         )
       }
-    ]);
-  }
+    ]
+  );
 
-  renderProvidersList() {
-    const { product, isSaving } = this.state;
-    const { stores } = this.props;
+  const renderProvidersList = () => {
     return (
       <>
         <Flex justify="space-between">
@@ -102,13 +120,12 @@ class ProductDetails extends Component {
             <Button
               variant="ghost"
               colorScheme="teal"
-              onClick={() => { }}
-            >
-              Agregar proveedor
-            </Button>
+              onClick={onOpen}
+              isDisabled={isSaving || product?.isBusy()}
+            >Agregar proveedor</Button>
           </Center>
         </Flex>
-        {!product?.providers.length ? (
+        {!product?.isBusy() && !product?.providers.length ? (
           <div class={styles['no-providers-container']}>
             <Text>Este producto no tiene ningún proveedor asignado</Text>
             <Text>Selecciona un proveedor y comienza a armar tu equipo de trabajo!</Text>
@@ -117,48 +134,63 @@ class ProductDetails extends Component {
         ) : (
           <Table
             className={styles['providers-table']}
-            isLoading={!product?.isOk()}
-            columns={this.getProvidersColumns()}
-            data={product?.isOk() ? product.providers : stores.providers.getDummy(3)}
+            isLoading={product?.isBusy()}
+            columns={getProvidersColumns()}
+            data={!product?.isBusy() ? product.providers : stores.providers?.getDummy(3)}
           />
         )}
-      </>
-    )
-  }
-
-  render() {
-    const { product, isSaving } = this.state;
-    return (
-      <>
-        {!product?.isOk() ? (
-          <Skeleton
-            height="40px"
-            width="320px"
-          />
-        ) : (
-          <Heading
-            as="h3"
-            size="lg"
-          >{`Producto ${product?.name}`}</Heading>
-        )}
-        <ProductForm
-          product={product}
-          onChange={(product) => this.setState({ product })}
-          disabled={isSaving}
+        <ProvidersSelectionModal
+          isOpenModal={isOpen}
+          onCancel={onClose}
+          loading={Array.isArray(providers)}
+          providers={Array.isArray(providers) ? providers : providers?.toArray()}
+          currentProviders={product?.providers}
+          onSelect={(providers) => {
+            product.providers = providers;
+            setProduct(product);
+            onClose();
+          }}
         />
-        {this.renderProvidersList()}
-        <Button
-          isDisabled={!product?.isOk()}
-          isLoading={isSaving}
-          mt="48px"
-          colorScheme="teal"
-          onClick={() => this.saveProduct()}
-        >
-          {product?.isNew ? 'Crear' : 'Guardar'}
-        </Button>
       </>
     )
-  }
-}
+  };
+
+  useEffect(() => {
+    const productID = router?.query?.id;
+    setProduct(stores?.products?.get(productID, true));
+    setProviders(stores?.providers?.search({},'details-product-view', true));
+  }, []);
+  
+  return (
+    <>
+      {product?.isBusy() ? (
+        <Skeleton
+          height="40px"
+          width="320px"
+        />
+      ) : (
+        <Heading
+          as="h3"
+          size="lg"
+        >{`Producto ${product?.name}`}</Heading>
+      )}
+      <ProductForm
+        product={product}
+        onChange={(editedProduct) => setProduct(editedProduct)}
+        disabled={isSaving}
+      />
+      {renderProvidersList()}
+      <Button
+        isDisabled={product?.isBusy() || isSaving}
+        isLoading={isSaving}
+        mt="48px"
+        colorScheme="teal"
+        onClick={() => saveProduct()}
+      >
+        {product?.isNew ? 'Crear' : 'Guardar'}
+      </Button>
+    </>
+  )
+});
 
 export default withRouter(ProductDetails);

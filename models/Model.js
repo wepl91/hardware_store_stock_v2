@@ -120,4 +120,6 @@ export default class Model {
   get isNew() {
     return !this?.attributes?.has(this.primaryKey)
   }
+
+  toJson() { }
 }
