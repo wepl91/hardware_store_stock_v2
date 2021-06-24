@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { withRouter } from 'next/router'
+import { withRouter } from 'next/router';
 
 import Head from 'next/head'
 import Image from 'next/image'

@@ -1,0 +1,57 @@
+.layout-container {
+  &__menu {
+    height: 100%;
+    width: 12.5em;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #84adaf;
+    box-shadow:  0px 0px 12px 0px #84adaf;
+    padding-top: 5.5em;
+  }
+  &__menu-section {
+    padding: 1em 0 0 1em;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    min-height: 12em;
+  }
+  &__menu-section-link {
+    margin: 1em 0 0 2em;
+    font-size: 14px;
+    padding: 0.5em 0.5em 0.5em 1.5em;
+    border: solid 1px transparent;
+    box-sizing: border-box;
+    &:hover {
+      cursor: pointer;
+      border-top-left-radius: 2.5em;
+      border-bottom-left-radius: 2.5em;
+      border: solid 1px #fff;
+      border-right: none;
+    }
+  }
+  &__menu-section-link-selected {
+    margin: 1em 0px 0 2em;
+    padding: 0.5em 0.5em 0.5em 1.5em;
+    font-size: 14px;
+    background-color: white;
+    color: #84adaf;
+    border-top-left-radius: 2.5em;
+    border-bottom-left-radius: 2.5em;
+    border: solid 1px #fff;
+    border-right: none;
+    box-sizing: border-box;
+  }
+  &__view {
+    margin-left: 12em;
+    padding: 24px 48px 48px 48px;
+  }
+  &__breadcrumb {
+    margin-left: 12em;
+    padding: 24px 24px 24px 48px;
+    font-weight: 500;
+    color: #2d797b;
+    box-shadow:  0px 8px 8px -8px #84adaf;
+  }
+}

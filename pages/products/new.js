@@ -187,7 +187,7 @@ const ProductCreate = observer(({ stores, router }) => {
         colorScheme="teal"
         onClick={() => saveProduct()}
       >
-        "Crear"
+        Crear
       </Button>
     </>
   )
