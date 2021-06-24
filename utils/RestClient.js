@@ -63,11 +63,16 @@ export default class RESTClient {
   post(uriPath, item) {
     const created = moment();
     item['created_at'] = created.toISOString();
+    const itemObject = item.toJson();
+    delete itemObject.id;
     return new Promise((resolve, reject) => {
       FirebaseClient.collection(uriPath)
-        .add(item)
+        .add(itemObject)
         .then(newItem => {
-          resolve(newItem);
+          resolve({
+            ...itemObject,
+            ... { id: newItem.id }
+          });
         })
         .catch(err => {
           reject(err);
@@ -76,9 +81,9 @@ export default class RESTClient {
   }
 
   put(uriPath, item, itemId = null) {
-    const created = moment();
+    const now = moment();
     const itemObject = item.toJson();
-    itemObject['updated_at'] = created.toISOString();
+    itemObject['updated_at'] = now.toISOString();
     return new Promise((resolve, reject) => {
       FirebaseClient
         .collection(uriPath)

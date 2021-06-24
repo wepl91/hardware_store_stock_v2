@@ -50,7 +50,7 @@ export default class Collection {
   }
 
   find(id) {
-    return this.items.get(id.toString());
+    return this.items.get(id?.toString());
   }
 
   collectionDidUpdate() {

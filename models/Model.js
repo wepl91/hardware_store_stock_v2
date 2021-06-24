@@ -118,7 +118,7 @@ export default class Model {
 
   @computed
   get isNew() {
-    return !this?.attributes?.has(this.primaryKey)
+    return !this?.attributes?.get(this.primaryKey)
   }
 
   toJson() { }

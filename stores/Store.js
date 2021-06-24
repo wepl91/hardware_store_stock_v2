@@ -52,7 +52,9 @@ export default class Store {
 
   getNew(attrs = {}) {
     const ModelClass = this.model;
-    return new ModelClass(attrs, this);
+    const newModel = new ModelClass(attrs, this);
+    newModel.status = 'ok';
+    return newModel;
   }
 
   @action
@@ -115,6 +117,7 @@ export default class Store {
       this.adapter.post(apiPath || this.modelRoot, model)
         .then((res) => {
           if (res) {
+            model.id = res.id;
             this.items.addOrUpdateModel(model);
             model.endUpdate();
           }
