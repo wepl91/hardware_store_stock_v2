@@ -5,9 +5,16 @@ import {
   computed,
 } from 'mobx';
 
+import { upperFirst } from 'lodash'
+
 export default class Provider extends Model {
   constructor(attributes, store) {
-    let defaultAttributes = { };
+    let defaultAttributes = { 
+      name: '',
+      last_name: '',
+      email: '',
+      phone_number: ''
+    };
     let attrs = {
       ...defaultAttributes, 
       ...attributes
@@ -18,6 +25,11 @@ export default class Provider extends Model {
 
   @computed
   get cookedName() {
-    return this.name;
+    return `${upperFirst(this.name)} ${upperFirst(this.last_name)}`;
+  }
+
+  toJson() {
+    const jsonObject = Object.fromEntries(this.toJS());
+    return jsonObject;
   }
 }

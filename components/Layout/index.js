@@ -35,7 +35,6 @@ const Layout = observer(({ children, stores, router }) => {
     }
     pathSplited.filter(p => p !== '').forEach((e, i) => {
       const routePath = pathSplited.filter(p => p !== '').slice(0, i + 1).join('/');
-      debugger
       const routeKey = e !== '' ? e : 'home';
       routes[routeKey] = `/${routePath}`;
     });
@@ -68,7 +67,7 @@ const Layout = observer(({ children, stores, router }) => {
     <div className={styles['layout-container']}>
       <div className={styles['layout-container__menu']}>
         <div className={styles['layout-container__menu-section']}>
-          <Text>PRODUCTOS</Text>
+          <Text pb="20px">PRODUCTOS</Text>
           <Link href="/products">
             <div
               className={styles[getClassActive('/products')]}
@@ -81,7 +80,7 @@ const Layout = observer(({ children, stores, router }) => {
           </Link>
         </div>
         <div className={styles['layout-container__menu-section']}>
-          <Text mb="12px">PROVEEDORES</Text>
+          <Text pb="20px" pt="25px">PROVEEDORES</Text>
           <Link href="/providers">
             <div
               className={styles[getClassActive('/providers')]}

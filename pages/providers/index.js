@@ -11,7 +11,13 @@ import {
   Center,
   Button,
   Heading,
+  IconButton,
+  Avatar,
 } from "@chakra-ui/react"
+import {
+  EditIcon,
+  DeleteIcon,
+} from '@chakra-ui/icons'
 
 import moment from 'moment';
 
@@ -31,20 +37,43 @@ class Providers extends Component {
   }
 
   getColumns() {
+    const { router } = this.props;
     return ([
       {
+        label: '',
+        content: (data) => <Avatar bg="teal.500" />
+      },
+      {
         label: 'Nombre',
-        content: (data) => data.name || '-',
+        content: (data) => data.cookedName,
       },
       {
         label: 'Teléfono',
         content: (data) => data.phone_number || '-',
       },
       {
-        label: 'Fecha creación',
-        content: (data) => data.created_at ? moment(data.created_at).format('DD-MM-YYYY') : '-',
-        align: 'center'
+        label: 'Email',
+        content: (data) => data.email || '-',
       },
+      {
+        label: 'Acciones  ',
+        isNumeric: true,
+        content: (data) => (
+          <>
+            <IconButton
+              variant="ghost"
+              colorScheme="teal"
+              icon={<EditIcon />}
+              onClick={() => router.push(`/providers/${data?.id}`)}
+            />
+            <IconButton
+              variant="ghost"
+              colorScheme="red"
+              icon={<DeleteIcon />}
+            />
+          </>
+        )
+      }
     ]);
   }
 

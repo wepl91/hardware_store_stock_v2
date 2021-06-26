@@ -156,8 +156,6 @@ const ProductCreate = observer(({ stores, router }) => {
   };
 
   useEffect(() => {
-    const productID = router?.query?.id;
-    setProduct(stores?.products?.get(productID, true));
     setProviders(stores?.providers?.search({},'details-product-view', true));
   }, []);
   

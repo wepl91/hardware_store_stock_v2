@@ -13,6 +13,8 @@ import {
   Box,
 } from "@chakra-ui/react"
 
+import styles from './Table.module.scss';
+
 const TableRow = ({ columns, data, index, isLoading, footerLabel, key }) => {
   const renderContent = (content) => {
     if (React.isValidElement(content)) return content;
@@ -22,10 +24,11 @@ const TableRow = ({ columns, data, index, isLoading, footerLabel, key }) => {
   };
 
   const renderSkeleton = () => <Skeleton height="20px" />;
+  const avatarStyle = (column) => column?.label === '' ? styles['avatar-row'] : null 
   return (
     <Tr key={`column-${index}-${key}`}>
       {columns.map(column =>
-        <Td key={`row-${column.label}`} isNumeric={column.isNumeric}>
+        <Td className={avatarStyle(column)} key={`row-${column.label}`} isNumeric={column.isNumeric}>
           {isLoading ? renderSkeleton() : renderContent(column.content)}
         </Td>)}
     </Tr>);
