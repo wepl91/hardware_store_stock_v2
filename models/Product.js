@@ -46,6 +46,7 @@ export default class Product extends Model {
     // We will define quantities to check when we implement settings
     if (stock_quantity < 15) status = 'low';
     if (stock_quantity > 15 && stock_quantity < 30) status = 'medium';
+    if (!stock_quantity || stock_quantity < 1) status = 'none';
     return status;
   }
 
@@ -56,6 +57,7 @@ export default class Product extends Model {
       ok: 'green',
       medium: 'orange',
       low: 'red',
+      none: 'red',
     };
     return statusColorMap[status];
   }
@@ -67,6 +69,7 @@ export default class Product extends Model {
       ok: 'En stock',
       medium: 'Stock medio',
       low: 'Stock bajo',
+      none: 'Sin stock'
     };
     return statusColorMap[status];
   }

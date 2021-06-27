@@ -27,6 +27,7 @@ const Layout = observer(({ children, stores, router }) => {
       new: 'Creación',
       home: 'Home',
       Home: 'Home',
+      settings: 'Configuraciones',
     };
     return translations[label];
   }
