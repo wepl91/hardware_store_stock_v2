@@ -13,10 +13,14 @@ import {
   Heading,
   IconButton,
   Avatar,
+  InputGroup,
+  InputLeftElement,
+  Input,
 } from "@chakra-ui/react"
 import {
   EditIcon,
   DeleteIcon,
+  SearchIcon,
 } from '@chakra-ui/icons'
 
 import moment from 'moment';
@@ -99,6 +103,13 @@ class Providers extends Component {
             </Button>
           </Center>
         </Flex>
+        <InputGroup mt="3em" mb="-2em" w="30%">
+          <InputLeftElement
+            pointerEvents="none"
+            children={<SearchIcon color="gray.300" />}
+          />
+          <Input colorScheme="teal" type="search" placeholder="Buscar.." />
+        </InputGroup>
         <Table
           className={styles['providers-table']}
           isLoading={!providers || !providers.isOk()}

@@ -15,10 +15,12 @@ const NotFoundView = observer(() => (
     <div className={styles['view-container__message']}>
       <Text>
         Ups! No sabemos como llegaste hasta acá, pero podes volver a la home haciendo click
-        <Link
-          className={styles['view-container__message-link']}
-          href="/"
-        ><strong>{` aquí.`}</strong></Link>
+        <strong>
+          <Link
+            className={styles['view-container__message-link']}
+            href="/"
+          >{` aquí.`}</Link>
+        </strong>
       </Text>
     </div>
   </div>
