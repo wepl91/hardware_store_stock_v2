@@ -12,6 +12,7 @@ import {
   Button,
   Heading,
   IconButton,
+  Badge,
 } from "@chakra-ui/react"
 import {
   EditIcon,
@@ -56,8 +57,11 @@ class Products extends Component {
         align: 'center'
       },
       {
-        label: 'Fecha creación',
-        content: (data) => data.created_at ? moment(data.created_at).format('DD-MM-YYYY') : '-',
+        label: 'Stock',
+        content: (data) =>
+          <Badge
+            colorScheme={data.quantityStatusColor}
+          >{`${data.quantityStatusLabel} (${data.stock_quantity})`}</Badge>,
         align: 'center'
       },
       {

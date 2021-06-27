@@ -1,16 +1,18 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 import { withRouter } from 'next/router'
-import Link from 'next/link'
+import Link from 'next/link';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Text,
+  IconButton,
 } from "@chakra-ui/react"
 
 import {
   ChevronRightIcon,
+  SettingsIcon,
 } from '@chakra-ui/icons'
 
 import styles from './Layout.module.scss';
@@ -19,6 +21,7 @@ const Layout = observer(({ children, stores, router }) => {
 
   const translateLabel = (label) => {
     const translations = {
+      404: '404',
       products: 'Productos',
       providers: 'Proveedores',
       new: 'Creación',
@@ -27,6 +30,7 @@ const Layout = observer(({ children, stores, router }) => {
     };
     return translations[label];
   }
+
   const getRoutes = () => {
     const path = router?.pathname || '';
     const pathSplited = path.split('/');
@@ -40,9 +44,28 @@ const Layout = observer(({ children, stores, router }) => {
     });
     return routes;
   }
+
   const renderBreadcrumb = () => {
     const routes = getRoutes();
     if (!routes) { return 'Cargando' }
+    if (Object.keys(routes).includes('404')) {
+      return (
+        <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
+          <BreadcrumbItem key={'home'}>
+            <BreadcrumbLink>
+              <Link href={'/'}>
+                {'Home'}
+              </Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbItem key={'404'}>
+            <BreadcrumbLink>
+              {'404'}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        </Breadcrumb>
+      );
+    }
     return (
       <Breadcrumb spacing="8px" separator={<ChevronRightIcon color="gray.500" />}>
         {Object.keys(routes).map(rk => (
@@ -57,6 +80,18 @@ const Layout = observer(({ children, stores, router }) => {
       </Breadcrumb>
     )
   }
+
+  const renderActions = () => (
+    <div className={styles['layout-container__breadcrumb-actions']}>
+      <IconButton
+        colorScheme="teal"
+        aria-label="settings"
+        variant="link"
+        onClick={() => router.push('/settings')}
+        icon={<SettingsIcon />}
+      />
+    </div>
+  )
 
   const getClassActive = (url) => {
     return router?.pathname === url
@@ -95,6 +130,7 @@ const Layout = observer(({ children, stores, router }) => {
       </div>
       <div className={styles['layout-container__breadcrumb']}>
         {renderBreadcrumb()}
+        {renderActions()}
       </div>
       <div className={styles['layout-container__view']}>
         {children}

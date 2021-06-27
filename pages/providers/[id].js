@@ -3,7 +3,7 @@ import Image from 'next/image'
 
 import React, { useState, useEffect } from 'react';
 import { observer } from 'mobx-react';
-import { withRouter } from 'next/router'
+import { withRouter } from 'next/router';
 
 import {
   Heading,
