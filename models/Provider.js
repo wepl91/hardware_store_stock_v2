@@ -1,7 +1,6 @@
 import { Model } from './';
 
 import {
-  action,
   computed,
 } from 'mobx';
 

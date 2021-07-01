@@ -4,7 +4,6 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
@@ -15,7 +14,7 @@ import {
 
 import styles from './Table.module.scss';
 
-const TableRow = ({ columns, data, index, isLoading, footerLabel, key }) => {
+const TableRow = ({ columns, data, index, isLoading, key = '' }) => {
   const renderContent = (content) => {
     if (React.isValidElement(content)) return content;
     if (typeof content === 'string') return content
@@ -49,16 +48,16 @@ const CustomTable = ({ columns, data, isLoading, footerLabel, className }) => {
     >
       <Table>
         {footerLabel ? (
-          <TableCaption>
+          <TableCaption key="footer-caption">
             {footerLabel}
           </TableCaption>
         ) : null}
-        <Thead>
+        <Thead key="headers">
           <Tr key="header">
             {tableHeaders(columns)}
           </Tr>
         </Thead>
-        <Tbody>
+        <Tbody key="content">
           {data && data.map((element, index) => (
             <TableRow
               index={index}

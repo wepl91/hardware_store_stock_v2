@@ -21,6 +21,7 @@ const ProviderForm = observer(({ provider, onChange, disabled }) => {
         <Stack w="30%">
           <Text mb="8px">Nombre</Text>
           <Input
+            focusBorderColor="teal.400"
             isDisabled={provider?.isBusy() || disabled}
             variant="outline"
             placeholder="Ej: Martin"
@@ -31,6 +32,7 @@ const ProviderForm = observer(({ provider, onChange, disabled }) => {
         <Stack w="30%" ml="5%">
           <Text mb="8px">Apellido</Text>
           <Input
+            focusBorderColor="teal.400"
             isDisabled={provider?.isBusy() || disabled}
             variant="outline"
             placeholder="Ej: Perez"
@@ -45,6 +47,7 @@ const ProviderForm = observer(({ provider, onChange, disabled }) => {
           <InputGroup>
             <InputLeftAddon children="+54" />
             <Input
+              focusBorderColor="teal.400"
               isDisabled={provider?.isBusy() || disabled}
               variant="outline"
               placeholder="Ej: 1154223463"
@@ -56,6 +59,7 @@ const ProviderForm = observer(({ provider, onChange, disabled }) => {
         <Stack w="30%" ml="5%">
           <Text mb="8px">Email</Text>
           <Input
+            focusBorderColor="teal.400"
             isDisabled={provider?.isBusy() || disabled}
             variant="outline"
             value={provider?.email || ''}

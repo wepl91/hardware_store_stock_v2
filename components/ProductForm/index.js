@@ -22,6 +22,7 @@ const ProductForm = observer(({ product, onChange, disabled }) => {
         <Stack w="30%">
           <Text mb="8px">Nombre</Text>
           <Input
+            focusBorderColor="teal.400"
             isDisabled={product?.isBusy() || disabled}
             variant="outline"
             placeholder="Ej: Martillo"
@@ -32,6 +33,7 @@ const ProductForm = observer(({ product, onChange, disabled }) => {
         <Stack w="30%" ml="5%">
           <Text mb="8px">Referencia</Text>
           <Input
+            focusBorderColor="teal.400"
             isDisabled={product?.isBusy() || disabled}
             variant="outline"
             placeholder="Ej: 12345"
@@ -46,6 +48,7 @@ const ProductForm = observer(({ product, onChange, disabled }) => {
           <InputGroup>
             <InputLeftAddon children="$" />
             <Input
+              focusBorderColor="teal.400"
               isDisabled={product?.isBusy() || disabled}
               variant="outline"
               value={product?.price}
@@ -58,7 +61,8 @@ const ProductForm = observer(({ product, onChange, disabled }) => {
         <Stack w="65%">
           <Text mb="8px">Descripción</Text>
           <Textarea
-            isDisabled={product?.isBusy() || disabled} 
+            focusBorderColor="teal.400"
+            isDisabled={product?.isBusy() || disabled}
             placeholder="Ej: Descripción de un martillo"
             value={product?.description}
             onChange={(e) => handler('description', e.target.value)}

@@ -11,6 +11,7 @@ import {
   ModalCloseButton,
   Button,
   Checkbox,
+  Avatar,
 } from "@chakra-ui/react"
 import Table from '../Table';
 
@@ -39,8 +40,12 @@ const ProvidersSelectionModal = observer(({
   const getColumns = () => (
     [
       {
+        label: '',
+        content: (data) => <Avatar size="sm" bg="teal.500" />
+      },
+      {
         label: 'Nombre',
-        content: (data) => data.name || '-',
+        content: (data) => data.cookedName,
       },
       {
         label: 'Teléfono',
@@ -76,6 +81,7 @@ const ProvidersSelectionModal = observer(({
       size="XL"
       isOpen={isOpenModal}
       onClose={() => onCancel()}
+      scrollBehavior="inside"
     >
       <ModalOverlay />
       <ModalContent w="75%">

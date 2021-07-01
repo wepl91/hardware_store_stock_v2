@@ -30,7 +30,7 @@ export default class Product extends Model {
             .map(prov => (
               this.store.appStore.stores.get('providers').getNew(prov)
             ));
-      } else { this.providers = [] }
+      } else { this.providers = new Array() }
     }
   }
 
@@ -54,10 +54,10 @@ export default class Product extends Model {
   get quantityStatusColor() {
     const status = this.quantityStatus;
     const statusColorMap = {
-      ok: 'green',
       medium: 'orange',
       low: 'red',
       none: 'red',
+      ok: 'green',
     };
     return statusColorMap[status];
   }
@@ -66,10 +66,10 @@ export default class Product extends Model {
   get quantityStatusLabel() {
     const status = this.quantityStatus;
     const statusColorMap = {
-      ok: 'En stock',
       medium: 'Stock medio',
       low: 'Stock bajo',
-      none: 'Sin stock'
+      none: 'Sin stock',
+      ok: 'En stock',
     };
     return statusColorMap[status];
   }

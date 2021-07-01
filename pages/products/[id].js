@@ -14,7 +14,8 @@ import {
   Center,
   Text,
   useDisclosure,
-  useToast
+  useToast,
+  Avatar,
 } from '@chakra-ui/react';
 
 import {
@@ -25,8 +26,6 @@ import ProductForm from '../../components/ProductForm';
 import Table from '../../components/Table';
 import SelectTeam from '../../images/SelectTeam';
 import ProvidersSelectionModal from '../../components/ProviderSelectionModal';
-
-import moment from 'moment';
 
 import styles from './styles/Details.module.scss';
 
@@ -69,8 +68,12 @@ const ProductDetails = observer(({ stores, router }) => {
   const getProvidersColumns = () => (
     [
       {
+        label: '',
+        content: (data) => <Avatar size="sm" bg="teal.500" />
+      },
+      {
         label: 'Nombre',
-        content: (data) => `${data.name}`,
+        content: (data) => data.cookedName,
       },
       {
         label: 'Teléfono',
@@ -79,11 +82,6 @@ const ProductDetails = observer(({ stores, router }) => {
       {
         label: 'Email',
         content: (data) => data.email || '-',
-      },
-      {
-        label: 'Fecha creación',
-        content: (data) => data.created_at ? moment(data.created_at).format('DD-MM-YYYY') : '-',
-        align: 'center'
       },
       {
         label: '',

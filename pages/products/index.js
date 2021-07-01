@@ -23,8 +23,6 @@ import {
   SearchIcon,
 } from '@chakra-ui/icons'
 
-import moment from 'moment';
-
 import styles from './styles/List.module.scss';
 @observer
 class Products extends Component {
@@ -117,7 +115,7 @@ class Products extends Component {
             pointerEvents="none"
             children={<SearchIcon color="gray.300" />}
           />
-          <Input colorScheme="teal" type="search" placeholder="Buscar.." />
+          <Input focusBorderColor="teal.400" type="search" placeholder="Buscar.." />
         </InputGroup>
         <Table
           className={styles['products-table']}
