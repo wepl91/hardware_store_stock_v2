@@ -7,7 +7,6 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  Text,
   IconButton,
 } from "@chakra-ui/react"
 import {
@@ -16,6 +15,7 @@ import {
 } from '@chakra-ui/icons'
 
 import Menu from './menu';
+import LoggedUserAvatar from '../LoggedUserAvatar';
 
 import styles from './Layout.module.scss';
 
@@ -86,14 +86,15 @@ const Layout = observer(({ children, stores, router }) => {
 
   const renderActions = () => (
     <div className={styles['layout-container__breadcrumb-actions']}>
-      <IconButton
+      {/* <IconButton
         isRound
         colorScheme="teal"
         aria-label="settings"
         variant="link"
         onClick={() => router.push('/settings')}
         icon={<SettingsIcon />}
-      />
+      /> */}
+      <LoggedUserAvatar />
     </div>
   )
 
