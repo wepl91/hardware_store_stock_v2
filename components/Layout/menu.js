@@ -21,7 +21,7 @@ import styles from './Layout.module.scss';
 
 const Menu = ({ router }) => {
 
-  const [sectionOpen, setSectionOpen] = useState();
+  const [sectionOpen, setSectionOpen] = useState([]);
 
   const getClassActive = (url) => {
     return router?.pathname === url
@@ -30,23 +30,23 @@ const Menu = ({ router }) => {
   };
 
   const getClassOpen = (section) => {
-    return sectionOpen === section
+    return sectionOpen.includes(section)
       ? 'layout-container__menu-section-open'
       : 'layout-container__menu-section-closed';
   };
 
-  const getChevronIcon = (section) => sectionOpen === section ? FiChevronUp : FiChevronDown;
+  const getChevronIcon = (section) => sectionOpen.includes(section) ? FiChevronUp : FiChevronDown;
 
   const handleSection = (section) => {
-    if (section === sectionOpen) setSectionOpen(null);
-    else setSectionOpen(section);
+    if (sectionOpen.includes(section)) setSectionOpen(sectionOpen.filter(s => s !== section));
+    else setSectionOpen([...sectionOpen, ...[section]]);
   }
 
   useEffect(() => {
-    if (router.pathname.includes('providers')) setSectionOpen('provider');
-    if (router.pathname.includes('products')) setSectionOpen('products');
-    if (router.pathname.includes('purchases')) setSectionOpen('purchases');
-    if (router.pathname.includes('sales')) setSectionOpen('sales');
+    if (router.pathname.includes('providers')) setSectionOpen([...sectionOpen, ...['providers']]);
+    if (router.pathname.includes('products')) setSectionOpen([...sectionOpen, ...['products']]);
+    if (router.pathname.includes('purchases')) setSectionOpen([...sectionOpen, ...['purchases']]);
+    if (router.pathname.includes('sales')) setSectionOpen([...sectionOpen, ...['sales']]);
   }, []);
 
   return (
