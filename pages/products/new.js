@@ -89,6 +89,7 @@ const ProductCreate = observer(({ stores, router }) => {
         content: (data) => (
           <>
             <IconButton
+              isRound
               variant="ghost"
               colorScheme="red"
               onClick={() => {
@@ -119,7 +120,7 @@ const ProductCreate = observer(({ stores, router }) => {
               variant="ghost"
               colorScheme="teal"
               onClick={onOpen}
-              isDisabled={isSaving || product?.isBusy()}
+              isDisabled={isSaving || product?.isBusy()}
             >Agregar proveedor</Button>
           </Center>
         </Flex>
@@ -154,9 +155,9 @@ const ProductCreate = observer(({ stores, router }) => {
   };
 
   useEffect(() => {
-    setProviders(stores?.providers?.search({},'details-product-view', true));
+    setProviders(stores?.providers?.search({}, 'details-product-view', true));
   }, []);
-  
+
   return (
     <>
       {product?.isBusy() ? (
@@ -177,7 +178,7 @@ const ProductCreate = observer(({ stores, router }) => {
       />
       {renderProvidersList()}
       <Button
-        isDisabled={product?.isBusy() || isSaving}
+        isDisabled={product?.isBusy() || isSaving}
         isLoading={isSaving}
         mt="48px"
         colorScheme="teal"

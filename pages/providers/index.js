@@ -63,12 +63,14 @@ class Providers extends Component {
         content: (data) => (
           <>
             <IconButton
+              isRound
               variant="ghost"
               colorScheme="teal"
               icon={<EditIcon />}
               onClick={() => router.push(`/providers/${data?.id}`)}
             />
             <IconButton
+              isRound
               variant="ghost"
               colorScheme="red"
               icon={<DeleteIcon />}

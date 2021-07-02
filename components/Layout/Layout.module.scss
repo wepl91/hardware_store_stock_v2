@@ -11,14 +11,43 @@
     padding-top: 5.5em;
     z-index: 20;
   }
-  &__menu-section {
-    padding: 0 0 0 1em;
-    font-weight: 600;
+  &__menu-section, &__menu-section-open, &__menu-section-closed {
+    margin: 1em 0 1em 0;
+    font-weight: 400;
     font-size: 14px;
     color: white;
-    min-height: 12em;
     .chakra-text {
       margin-bottom: 48px;
+    }
+  }
+  &__menu-section {
+    &-closed {
+      max-height: 35px;
+      min-height: 35px;
+      overflow: hidden;
+    }
+    &-open {
+      .layout-container__menu-section-header {
+        border-left: 3px solid #fff;
+      }
+      transition: overflow 1s;
+      max-height: 135px;
+      min-height: 135px;
+    }
+  }
+  &__menu-section-header {
+    padding: 0 0 0 1em;
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-bottom: 1em;
+    &:hover {
+      cursor: pointer;
+      font-weight: 800;
+    }
+    &-icon {
+      position: absolute;
+      right: 1em;
     }
   }
   &__menu-section-link {

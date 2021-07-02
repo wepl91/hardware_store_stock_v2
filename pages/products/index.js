@@ -72,12 +72,14 @@ class Products extends Component {
         content: (data) => (
           <>
             <IconButton
+              isRound
               variant="ghost"
               colorScheme="teal"
               icon={<EditIcon />}
               onClick={() => router.push(`/products/${data?.id}`)}
             />
             <IconButton
+              isRound
               variant="ghost"
               colorScheme="red"
               icon={<DeleteIcon />}

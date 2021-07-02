@@ -1,7 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
-import { withRouter } from 'next/router'
+import { withRouter } from 'next/router';
 import Link from 'next/link';
+
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,11 +10,12 @@ import {
   Text,
   IconButton,
 } from "@chakra-ui/react"
-
 import {
   ChevronRightIcon,
   SettingsIcon,
 } from '@chakra-ui/icons'
+
+import Menu from './menu';
 
 import styles from './Layout.module.scss';
 
@@ -85,6 +87,7 @@ const Layout = observer(({ children, stores, router }) => {
   const renderActions = () => (
     <div className={styles['layout-container__breadcrumb-actions']}>
       <IconButton
+        isRound
         colorScheme="teal"
         aria-label="settings"
         variant="link"
@@ -94,41 +97,9 @@ const Layout = observer(({ children, stores, router }) => {
     </div>
   )
 
-  const getClassActive = (url) => {
-    return router?.pathname === url
-      ? 'layout-container__menu-section-link-selected'
-      : 'layout-container__menu-section-link';
-  }
   return (
     <div className={styles['layout-container']}>
-      <div className={styles['layout-container__menu']}>
-        <div className={styles['layout-container__menu-section']}>
-          <Text pb="20px">PRODUCTOS</Text>
-          <Link href="/products">
-            <div
-              className={styles[getClassActive('/products')]}
-            >Listado</div>
-          </Link>
-          <Link href="/products/new">
-            <div
-              className={styles[getClassActive('/products/new')]}
-            >Crear</div>
-          </Link>
-        </div>
-        <div className={styles['layout-container__menu-section']}>
-          <Text pb="20px" pt="25px">PROVEEDORES</Text>
-          <Link href="/providers">
-            <div
-              className={styles[getClassActive('/providers')]}
-            >Listado</div>
-          </Link>
-          <Link href="/providers/new">
-            <div
-              className={styles[getClassActive('/providers/new')]}
-            >Crear</div>
-          </Link>
-        </div>
-      </div>
+      <Menu />
       <div className={styles['layout-container__breadcrumb']}>
         {renderBreadcrumb()}
         {renderActions()}
