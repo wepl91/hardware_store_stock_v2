@@ -3,6 +3,7 @@ import {
   action,
   makeObservable,
 } from 'mobx';
+import moment from 'moment';
 
 import { Collection } from '../utils';
 
@@ -64,7 +65,7 @@ export default class Store {
 
   @action
   search(filters = {}, viewName = 'default', forceRefresh = false, apiPath = null) {
-    const viewFullName = `${viewName}-${hashCode(JSON.stringify(filters))}-${this.appStore && this.appStore.loggedInUserKey}`;
+    const viewFullName = `${viewName}-${hashCode(JSON.stringify(filters))}-${this.appStore && moment().toISOString()}`;
     const view = this.view(viewFullName);
     const url = `${apiPath || this.modelRoot}`;
     view.beginUpdate();
@@ -75,7 +76,7 @@ export default class Store {
           view.clear();
           const items = res;
           if (Array.isArray(items)) {
-            items.forEach((item) => view.add(this.items.addOrUpdateModel(new ModelClass(item), this)));
+            items.forEach((item) => view.add(this.items.addOrUpdateModel(new ModelClass(item, this), this)));
           } else {
             view.add(this.items.addOrUpdateModel(new ModelClass(items, this)));
           }
@@ -111,31 +112,25 @@ export default class Store {
 
 
   @action
-  save(model, apiPath = null) {
+  save(model) {
     model.beginUpdate();
     if (model.isNew) {
-      this.adapter.post(apiPath || this.modelRoot, model)
+      this.adapter.post(this.modelRoot, model)
         .then((res) => {
           if (res) {
             model.id = res.id;
             this.items.addOrUpdateModel(model);
-            model.endUpdate();
           }
         })
-        .catch((error) => {
-          model.endUpdate(error);
-        })
+        .catch((error) => model.endUpdate(error))
     } else {
-      this.adapter.put(apiPath || this.modelRoot, model)
+      this.adapter.put(this.modelRoot, model)
         .then((res) => {
-          if (res) {
-            this.items.addOrUpdateModel(model);
-          }
+          model.set(res);
+          this.items.addOrUpdateModel(model)
+          model.endUpdate();
         })
-        .catch((error) => {
-          model.endUpdate(error);
-        })
-
+        .catch((error) => model.endUpdate(error));
     }
     return model;
   }

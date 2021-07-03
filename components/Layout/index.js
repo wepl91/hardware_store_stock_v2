@@ -86,14 +86,6 @@ const Layout = observer(({ children, stores, router }) => {
 
   const renderActions = () => (
     <div className={styles['layout-container__breadcrumb-actions']}>
-      {/* <IconButton
-        isRound
-        colorScheme="teal"
-        aria-label="settings"
-        variant="link"
-        onClick={() => router.push('/settings')}
-        icon={<SettingsIcon />}
-      /> */}
       <LoggedUserAvatar />
     </div>
   )

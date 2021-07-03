@@ -80,7 +80,7 @@ export default class RESTClient {
     });
   }
 
-  put(uriPath, item, itemId = null) {
+  put(uriPath, item) {
     const now = moment();
     const itemObject = item.toJson();
     itemObject['updated_at'] = now.toISOString();

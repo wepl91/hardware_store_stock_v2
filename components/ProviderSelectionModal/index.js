@@ -61,7 +61,7 @@ const ProvidersSelectionModal = observer(({
           <Checkbox
             colorScheme="teal"
             size="lg"
-            defaultIsChecked={Array.isArray(selectedProviders) && selectedProviders?.find(cp => cp.id === data.id)}
+            defaultIsChecked={selectedProviders?.find(cp => cp.id === data.id)}
             onChange={(e) => {
               const isChecked = e.target.checked;
               return isChecked ? addProvider(data) : deleteProvider(data);

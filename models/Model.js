@@ -1,30 +1,23 @@
 import { observable, action, computed, makeObservable, toJS } from 'mobx';
 import { statuses } from '../utils/constants';
 
+
 export default class Model {
   uriBase = '';
   primaryKey = 'id';
   store = null;
   error = null;
   onUpdateCallback;
-
+  
   @observable attributes = new Map();
   @observable status;
-
+  
   constructor(attributes, store) {
-    this.status = statuses.EMPTY;
     makeObservable(this);
+    this.status = statuses.EMPTY;
     this.store = store;
     this.set(attributes);
   }
-
-  transformData(data) {
-    if (data !== undefined && data.attributes !== undefined) {
-      return data.attributes;
-    }
-    return data;
-  }
-
 
   get(attribute) {
     if (this.attributes.has(attribute)) {
@@ -72,6 +65,13 @@ export default class Model {
     return this;
   }
 
+  transformData(data) {
+    if(data !== undefined && data.attributes !== undefined){
+      return data.attributes;
+    }
+    return data;
+  }
+
   @action
   beginUpdate() {
     this.status = statuses.BUSY;
@@ -105,13 +105,15 @@ export default class Model {
 
   @action
   set(data = {}) {
-    const newAttributesMap = data?.data_ || new Map(Object.entries(data));
-    this.attributes = this.attributes.merge(this.transformData(newAttributesMap));
+    //let newAttributesMap = data?.data_ || (data instanceof Map ? data : new Map(Object.entries(data)));
+    this.attributes.merge(this.transformData(data));
     this.attributes.forEach((value, key) => {
-      if (this[key] === undefined) Object.defineProperty(this, key, {
-        set: (v) => this.attributes.set(key, v),
-        get: (v) => this.get(key),
-      })
+      if (this[key] === undefined) {
+        Object.defineProperty(this, key, {
+          set: (v) => this.attributes.set(key, v),
+          get: (v) => this.get(key),
+        })
+      }
     });
     this.afterSetData();
   }
@@ -121,5 +123,5 @@ export default class Model {
     return !this?.attributes?.get(this.primaryKey)
   }
 
-  toJson() { }
+  toJson() {  }
 }

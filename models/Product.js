@@ -6,6 +6,8 @@ import {
 
 import moment from 'moment';
 
+import { Provider } from './'; 
+
 export default class Product extends Model {
   constructor(attributes, store) {
     let defaultAttributes = {
@@ -27,11 +29,9 @@ export default class Product extends Model {
           this
             .toJS()
             .get('providers')
-            .map(prov => (
-              this.store.appStore.stores.get('providers').getNew(prov)
-            ));
-      } else { this.providers = new Array() }
-    }
+            .map(prov => new Provider(prov, this.store.appStore.stores.get('providers')));
+      }
+    };
   }
 
   @computed

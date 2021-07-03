@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { withRouter } from 'next/router';
 
-import Head from 'next/head'
-import Image from 'next/image'
-
 import Table from '../../components/Table';
 import {
   Flex,
@@ -23,12 +20,15 @@ import {
   SearchIcon,
 } from '@chakra-ui/icons'
 
+import { debounce } from 'lodash';
 import styles from './styles/List.module.scss';
 @observer
 class Products extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.handleSearch = debounce(this.handleSearch.bind(this), 400);
   }
 
   componentDidMount() {
@@ -36,6 +36,17 @@ class Products extends Component {
     this.setState({
       products: stores.products.search({}, 'products-list-view', true)
     })
+  }
+
+  componentDidUpdate() {
+    console.dir(this.state.products.status)
+  }
+
+  handleSearch(search) {
+    const { stores } = this.props;
+    this.setState({
+      products: stores.products.search({ search: search }, 'products-list-view', true),
+    });
   }
 
   getColumns() {
@@ -93,10 +104,7 @@ class Products extends Component {
   render() {
     const { products } = this.state;
     const { stores, router } = this.props;
-    const dataToRender =
-      products?.isOk() ?
-        products?.toArray() :
-        stores?.products?.getDummy(5);
+    const dataToRender = products?.isOk() ? products?.toArray() : stores?.products?.getDummy(15);
     return (
       <>
         <Flex justify="space-between">
@@ -107,9 +115,7 @@ class Products extends Component {
             <Button
               colorScheme="teal"
               onClick={() => router.push('/products/new')}
-            >
-              Nuevo producto
-            </Button>
+            >Nuevo producto</Button>
           </Center>
         </Flex>
         <InputGroup mt="3em" mb="-2em" w="30%">
@@ -117,7 +123,12 @@ class Products extends Component {
             pointerEvents="none"
             children={<SearchIcon color="gray.300" />}
           />
-          <Input focusBorderColor="teal.400" type="search" placeholder="Buscar.." />
+          <Input 
+            focusBorderColor="teal.400" 
+            type="search" 
+            placeholder="Buscar.."
+            onChange={(e) => this.handleSearch(e.target.value)}
+          />
         </InputGroup>
         <Table
           className={styles['products-table']}
