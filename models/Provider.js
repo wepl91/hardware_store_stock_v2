@@ -12,7 +12,8 @@ export default class Provider extends Model {
       name: '',
       last_name: '',
       email: '',
-      phone_number: ''
+      phone_number: '',
+      keywords: new Array(),
     };
     let attrs = {
       ...defaultAttributes, 

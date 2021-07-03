@@ -27,6 +27,8 @@ import Table from '../../components/Table';
 import SelectTeam from '../../images/SelectTeam';
 import ProvidersSelectionModal from '../../components/ProviderSelectionModal';
 
+import { generateKeyword } from '../../utils/Helper';
+
 import styles from './styles/Details.module.scss';
 
 const ProductDetails = observer(({ stores, router }) => {
@@ -39,8 +41,8 @@ const ProductDetails = observer(({ stores, router }) => {
 
   const saveProduct = () => {
     setIsSaving(true);
+    product.keywords = generateKeyword([product.name, product.reference]);
     product.save().andThen((savedProduct, responseError) => {
-      debugger
       if (!responseError) {
         toast({
           title: "Producto guardado",
@@ -160,6 +162,7 @@ const ProductDetails = observer(({ stores, router }) => {
     setProduct(stores?.products?.get(productID, true));
     setProviders(stores?.providers?.search({}, 'details-product-view', true));
   }, []);
+  if (product?.isOk()) { debugger }
   return (
     <>
       {product?.isBusy() ? (

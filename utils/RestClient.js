@@ -22,10 +22,12 @@ export default class RESTClient {
       if (filters.page && filter.page > 1) {
         index = (page - 1) * 20;
       }
+      debugger
       FirebaseClient.collection(uriPath)
+        .where('keywords', 'array-contains', filters?.search?.toLowerCase() || '')
         .orderBy(filters.orderBy || 'name')
         .startAt(index)
-        .limit(20)
+        .limit(100)
         .get()
         .then(snapshot => {
           if (snapshot.empty) {
@@ -54,6 +56,7 @@ export default class RESTClient {
             ...snapshot.data(),
             ...{ id: snapshot.id }
           };
+          debugger
           resolve(item);
         })
         .catch((error) => reject(error))

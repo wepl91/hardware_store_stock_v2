@@ -18,6 +18,7 @@ export default class Product extends Model {
       created_at: moment(),
       providers: new Array(),
       stock_quantity: 0,
+      keywords: new Array(),
     };
 
     let attrs = Object.assign(defaultAttributes, attributes);

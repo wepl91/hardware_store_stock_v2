@@ -14,6 +14,8 @@ import {
 
 import ProviderForm from '../../components/ProviderForm';
 
+import { generateKeyword } from '../../utils/Helper';
+
 const ProviderDetail = observer(({ stores, router }) => {
   const toast = useToast();
 
@@ -22,6 +24,7 @@ const ProviderDetail = observer(({ stores, router }) => {
 
   const saveProvider = () => {
     setIsSaving(true);
+    provider.keywords = generateKeyword([provider.name, provider.last_name]);
     provider.save().andThen((savedProvider, responseError) => {
       if (!responseError) {
         toast({

@@ -11,14 +11,14 @@ const createKeyWord = (name) => {
 
 export const generateKeyword = (names) => {
   const [name, lastName] = names;
-  const keyWordsLeft = createKeyWord(`${name} ${lastName}`);
-  const keyWordsRight = createKeyWord(`${lastName} ${name}`);
+  const keyWordsLeft = createKeyWord(`${name?.toLowerCase()} ${lastName?.toLowerCase()}`);
+  const keyWordsRight = createKeyWord(`${lastName?.toLowerCase()} ${name?.toLowerCase()}`);
 
-  return new Set([
+  return Array.from(new Set([
     '',
     ...keyWordsLeft,
     ...keyWordsRight,
-  ]);
+  ]));
 };
 
 export const hashCode = function( str ) {

@@ -23,19 +23,29 @@ import {
   SearchIcon,
 } from '@chakra-ui/icons'
 
+import { debounce } from 'lodash';
 import styles from './styles/List.module.scss';
 @observer
 class Providers extends Component {
   constructor(props) {
     super(props);
     this.state = {};
+
+    this.handleSearch = debounce(this.handleSearch.bind(this), 400);
   }
 
   componentDidMount() {
     const { stores } = this.props;
     this.setState({
       providers: stores.providers.search({}, 'providers-list-view', true)
-    })
+    });
+  }
+
+  handleSearch(search) {
+    const { stores } = this.props;
+    this.setState({
+      providers: stores.providers.search({ search: search }, 'providers-list-view', true)
+    });
   }
 
   getColumns() {
@@ -108,7 +118,12 @@ class Providers extends Component {
             pointerEvents="none"
             children={<SearchIcon color="gray.300" />}
           />
-          <Input focusBorderColor="teal.400" type="search" placeholder="Buscar.." />
+          <Input 
+            focusBorderColor="teal.400" 
+            type="search" 
+            placeholder="Buscar.."
+            onChange={(e) => this.handleSearch(e.target.value)} 
+          />
         </InputGroup>
         <Table
           className={styles['providers-table']}
