@@ -1,3 +1,16 @@
 .providers-table {
-  
+  margin-top: 2em;
+}
+.provider-radio-button {
+  min-width: 100%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  &__item {
+    min-width: 33%;
+    max-width: 33%;
+  }
+  &:hover {
+    cursor: pointer;
+  }
 }

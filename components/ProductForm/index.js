@@ -9,6 +9,11 @@ import {
   InputLeftAddon,
   InputGroup,
   Textarea,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react"
 
 const ProductForm = observer(({ product, onChange, disabled }) => {
@@ -55,6 +60,24 @@ const ProductForm = observer(({ product, onChange, disabled }) => {
               onChange={(e) => handler('price', e.target.value)}
             />
           </InputGroup>
+        </Stack>
+        <Stack w="30%" ml="5%">
+          <Text mb="8px">Stock</Text>
+          <NumberInput
+            value={product?.stock_quantity}
+            min={0}
+            max={10000}
+            focusBorderColor="teal.400"
+            isDisabled={product?.isBusy() || disabled}
+            variant="outline"
+            onChange={(value) => handler('stock_quantity', value)}
+          >
+            <NumberInputField />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
         </Stack>
       </Flex>
       <Flex pt="32px">

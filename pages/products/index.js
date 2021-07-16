@@ -38,10 +38,6 @@ class Products extends Component {
     })
   }
 
-  componentDidUpdate() {
-    console.dir(this.state.products.status)
-  }
-
   handleSearch(search) {
     const { stores } = this.props;
     this.setState({

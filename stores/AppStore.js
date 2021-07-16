@@ -4,6 +4,7 @@ import {
   UIStore,
   ProductsStore,
   ProvidersStore,
+  PurchasesStore,
 } from './';
 
 export default class AppStore {
@@ -22,6 +23,7 @@ export default class AppStore {
 
     this.stores.set('products', new ProductsStore(this.APIClient, this));
     this.stores.set('providers', new ProvidersStore(this.APIClient, this));
+    this.stores.set('purchases', new PurchasesStore(this.APIClient, this));
     this.stores.set('ui', new UIStore(this.localStorageClient, this));
 
     this.stores.forEach((store, key) => {

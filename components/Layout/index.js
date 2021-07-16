@@ -30,6 +30,7 @@ const Layout = observer(({ children, stores, router }) => {
       home: 'Home',
       Home: 'Home',
       settings: 'Configuraciones',
+      purchases: 'Compras',
     };
     return translations[label];
   }

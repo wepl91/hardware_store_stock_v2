@@ -28,7 +28,7 @@ const TableRow = ({ columns, data, index, isLoading, key = '' }) => {
     <Tr key={key}>
       {columns.map((column, index) =>
         <Td
-          key={`${key}-content-${index}-${renderContent(column.content).toString()}`}
+          key={`${key}-content-${index}-${renderContent(column.content)?.toString()}`}
           className={avatarStyle(column)}
           isNumeric={column.isNumeric}
         >

@@ -12,6 +12,10 @@ import {
   Button,
   Checkbox,
   Avatar,
+  useRadio,
+  Box,
+  Text,
+  useRadioGroup
 } from "@chakra-ui/react"
 import Table from '../Table';
 
@@ -23,7 +27,8 @@ const ProvidersSelectionModal = observer(({
   onCancel = () => { },
   providers,
   loading,
-  currentProviders
+  currentProviders,
+  oneSelection = false,
 }) => {
   const [selectedProviders, setSelectedProviders] = useState(currentProviders || []);
   const addProvider = (provider) => {
@@ -72,9 +77,70 @@ const ProvidersSelectionModal = observer(({
     ]
   );
 
+  const renderRadioGroup = () => {
+    const RadioCard = (props) => {
+      const { getInputProps, getCheckboxProps } = useRadio(props)
+      const input = getInputProps()
+      const checkbox = getCheckboxProps()
+
+      return (
+        <Box as="label">
+          <input {...input} />
+          <Box
+            {...checkbox}
+            cursor="pointer"
+            borderWidth="1px"
+            borderRadius="md"
+            boxShadow="md"
+            _checked={{ bg: "teal.500", color: "white", borderColor: "teal.500" }}
+            _focus={{ boxShadow: "outline" }}
+            _hover={{ cursor: 'pointer' }}
+            p="1em"
+            mb="1em"
+            mr="4em"
+            ml="4em"
+          >
+            {props.children}
+          </Box>
+        </Box>
+      )
+    };
+
+    const { getRootProps, getRadioProps } = useRadioGroup({
+      name: "provider",
+      onChange: (providerID) => {
+        setSelectedProviders(providers.filter(p => p.id !== providerID));
+      },
+    });
+
+    const group = getRootProps();
+    return (
+      <div {...group} className={styles['providers-table']}>
+        {providers.map((value) => {
+          const radio = getRadioProps({ value: value.id })
+          return (
+            <RadioCard key={value} {...radio}>
+              <div className={styles['provider-radio-button']}>
+                <div>
+                  <Avatar m="1em" mr="4em" size="sm" bg="teal.500" />
+                </div>
+                <div className={styles['provider-radio-button__item']}>
+                  <Text m="1em">{`${value.name} ${value.last_name}`}</Text>
+                </div>
+                <div className={styles['provider-radio-button__item']}>
+                  <Text m="1em">{value.email}</Text>
+                </div>
+              </div>
+            </RadioCard>
+          )
+        })}
+      </div>
+    )
+  }
+
   useEffect(() => {
     setSelectedProviders(currentProviders);
-  }, [currentProviders])
+  }, [currentProviders]);
 
   return (
     <Modal
@@ -88,29 +154,27 @@ const ProvidersSelectionModal = observer(({
         <ModalHeader>Selecciona los proveedores de tu producto</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Table
-            className={styles['providers-table']}
-            columns={getColumns()}
-            data={providers}
-            isLoading={loading}
-          />
+          {oneSelection ? renderRadioGroup() :
+            <Table
+              className={styles['providers-table']}
+              columns={getColumns()}
+              data={providers}
+              isLoading={loading}
+            />}
+
         </ModalBody>
         <ModalFooter>
           <Button
             colorScheme="teal"
             mr={3}
             onClick={() => onSelect(selectedProviders)}
-            isDisabled={!selectedProviders.length}
-          >
-            Agregar
-          </Button>
+            isDisabled={!selectedProviders?.length}
+          >Agregar</Button>
           <Button
             colorScheme="teal"
             variant="ghost"
             onClick={() => onCancel()}
-          >
-            Cancelar
-          </Button>
+          >Cancelar</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

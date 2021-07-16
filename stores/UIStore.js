@@ -19,7 +19,7 @@ class UIStore extends Store {
         storage: process.browser && window.localStorage
       }).then(
         action((persistStore) => {
-          console.log(persistStore.isHydrated);
+          //console.log(persistStore.isHydrated);
         })
       );
   }

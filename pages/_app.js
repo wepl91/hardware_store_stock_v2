@@ -1,11 +1,16 @@
 import React from 'react';
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+import { StepsStyleConfig as Steps } from 'chakra-ui-steps';
 import { AppStore } from '../stores';
 import Layout from '../components/Layout';
-import '../styles/globals.css'
-import '../styles/globals.css'
+import '../styles/globals.scss'
 
 const StoreProvider = React.createContext();
+const theme = extendTheme({
+  components: {
+    Steps,
+  },
+});
 
 const MyApp = ({ Component, pageProps }) => {
   const isServer = typeof window === 'undefined';
@@ -18,7 +23,7 @@ const MyApp = ({ Component, pageProps }) => {
           const stores = value.stores || new Map();
           const storesObject = Object.fromEntries(stores);
           return (
-            <ChakraProvider>
+            <ChakraProvider theme={theme}>
               <Layout
                 stores={storesObject}
               >

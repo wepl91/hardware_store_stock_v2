@@ -22,11 +22,15 @@ export default class RESTClient {
       if (filters.page && filter.page > 1) {
         index = (page - 1) * 20;
       }
-      debugger
-      FirebaseClient.collection(uriPath)
-        .where('keywords', 'array-contains', filters?.search?.toLowerCase() || '')
-        .orderBy(filters.orderBy || 'name')
-        .startAt(index)
+      const collection = FirebaseClient.collection(uriPath);
+      let query = collection;
+      if (!!filters?.search) {
+        query = query.where('keywords', 'array-contains', filters?.search?.toLowerCase() || '');
+      }
+      if (!!filters?.orderBy) {
+        query.orderBy(filters.orderBy || 'name').startAt(index);
+      }
+      query
         .limit(100)
         .get()
         .then(snapshot => {
@@ -56,7 +60,6 @@ export default class RESTClient {
             ...snapshot.data(),
             ...{ id: snapshot.id }
           };
-          debugger
           resolve(item);
         })
         .catch((error) => reject(error))

@@ -21,7 +21,7 @@ import {
   EditIcon,
   DeleteIcon,
   SearchIcon,
-} from '@chakra-ui/icons'
+} from '@chakra-ui/icons';
 
 import { debounce } from 'lodash';
 import styles from './styles/List.module.scss';

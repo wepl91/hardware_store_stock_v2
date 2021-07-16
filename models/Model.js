@@ -1,4 +1,4 @@
-import { observable, action, computed, makeObservable, toJS } from 'mobx';
+import { observable, action, computed, makeObservable, toJS, configure } from 'mobx';
 import { statuses } from '../utils/constants';
 
 
@@ -8,12 +8,14 @@ export default class Model {
   store = null;
   error = null;
   onUpdateCallback;
-  
+
   @observable attributes = new Map();
   @observable status;
-  
+
   constructor(attributes, store) {
     makeObservable(this);
+    configure({ useProxies: "never"});
+  
     this.status = statuses.EMPTY;
     this.store = store;
     this.set(attributes);
@@ -66,7 +68,7 @@ export default class Model {
   }
 
   transformData(data) {
-    if(data !== undefined && data.attributes !== undefined){
+    if (data !== undefined && data.attributes !== undefined) {
       return data.attributes;
     }
     return data;
@@ -105,7 +107,6 @@ export default class Model {
 
   @action
   set(data = {}) {
-    //let newAttributesMap = data?.data_ || (data instanceof Map ? data : new Map(Object.entries(data)));
     this.attributes.merge(this.transformData(data));
     this.attributes.forEach((value, key) => {
       if (this[key] === undefined) {
@@ -123,5 +124,10 @@ export default class Model {
     return !this?.attributes?.get(this.primaryKey)
   }
 
-  toJson() {  }
+  toJson() { }
+
+  clone() {
+    const clone = this.store.getNew(this.attributes);
+    return clone;
+  }
 }

@@ -1,9 +1,10 @@
+import { deburr } from 'lodash'
 
 const createKeyWord = (name) => {
   const arrName = [];
   let curName = '';
   name.split('').forEach((letter) => {
-    curName += letter;
+    curName += deburr(letter);
     arrName.push(curName);
   });
   return arrName;

@@ -162,7 +162,6 @@ const ProductDetails = observer(({ stores, router }) => {
     setProduct(stores?.products?.get(productID, true));
     setProviders(stores?.providers?.search({}, 'details-product-view', true));
   }, []);
-  if (product?.isOk()) { debugger }
   return (
     <>
       {product?.isBusy() ? (

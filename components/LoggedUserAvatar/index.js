@@ -9,7 +9,7 @@ import {
   MenuItem,
   MenuGroup,
   MenuDivider,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 
 import {
   FiLogOut,

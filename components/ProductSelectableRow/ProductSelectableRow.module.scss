@@ -1,0 +1,26 @@
+.container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 25%;
+    max-width: 25%;
+    &reference {
+      min-width: 15%;
+      max-width: 15%;
+    }
+    &-checkbox {
+      position: absolute;
+      right: 0;
+      min-width: 7%;
+      display: flex;
+      justify-content: flex-end;
+    }
+    &-quantity-input {
+      max-width: 55%;
+    }
+  }
+}

@@ -1,0 +1,48 @@
+.steps {
+  margin: 2em 0;
+  &__content {
+    height: 70vh;
+    padding: 0 3em;
+    &-products {
+      height: 55vh;
+      overflow-y: scroll;
+      padding: 0 3em;
+      width: 65%;
+      margin-left: 17%;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+    &-date {
+      height: 55vh;
+      padding-top: 3em;
+      width: 30%;
+      margin-left: 35%;
+    }
+    &-validation {
+      height: 55vh;
+      overflow-y: scroll;
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+  }
+}
+
+.steps-nav {
+  background-color: #fff;
+  z-index: 10;
+  position: absolute;
+  width: 98%;
+  left: 1em;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #84ADAF;
+  padding: 0 3em;
+}
