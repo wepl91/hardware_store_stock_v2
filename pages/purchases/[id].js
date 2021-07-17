@@ -3,8 +3,8 @@ import { observer } from 'mobx-react';
 import { withRouter } from 'next/router'
 
 import {
-  Heading,Skeleton,Button,Flex,Center,useDisclosure,useToast,
-  Menu,MenuButton,MenuList,MenuItem,Badge,Text,Box,Avatar,
+  Heading, Skeleton, Button, Flex, Center, useDisclosure, useToast,
+  Menu, MenuButton, MenuList, MenuItem, Badge, Text, Box, Avatar,
 } from '@chakra-ui/react';
 
 import {
@@ -122,7 +122,7 @@ const PurchaseDetails = observer(({ stores, router }) => {
           borderWidth="1px"
           borderRadius="lg"
           padding="1em"
-          mr="4em"
+          mr="2em"
           bg="#F7FAFC"
           minWidth="20em"
         >
@@ -147,13 +147,32 @@ const PurchaseDetails = observer(({ stores, router }) => {
           borderWidth="1px"
           borderRadius="lg"
           padding="1em"
-          ml="4em"
+          ml="2em"
           bg="#F7FAFC"
         >
           <CalendarIcon color="teal.500" mb="1em" />
           <Text fontWeight="600">Fecha de entrega</Text>
           <Text>{upperFirst(moment(purchase?.schedule_date).locale('es-us').format('dddd DD [de] MMMM [del] yyyy'))}</Text>
         </Box>
+        {purchase?.received_at ? (
+          <Box
+            borderWidth="1px"
+            borderRadius="lg"
+            padding="1em"
+            ml="2em"
+            bg={purchase?.receivedDelayed ? '#FFF5F5' : '#F0FFF4'}
+          >
+            <Flex align="center"  mb="1em">
+              <CalendarIcon color="teal.500" />
+              <Badge
+                ml="1em"
+                colorScheme={purchase?.receivedDelayed ? 'red' : 'green'}
+              >{purchase?.receivedDelayed ? 'Entrega retrazada' : 'Entregado a tiempo'}</Badge>
+            </Flex>
+            <Text fontWeight="600">Fecha de recepción</Text>
+            <Text>{upperFirst(moment(purchase?.received_at).locale('es-us').format('dddd DD [de] MMMM [del] yyyy'))}</Text>
+          </Box>
+        ) : null}
       </Flex>
       {renderProductsList()}
     </>

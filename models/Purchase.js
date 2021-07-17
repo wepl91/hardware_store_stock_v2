@@ -11,6 +11,7 @@ export default class Purchase extends Model {
       products: new Array(),
       schedule_date: moment(),
       created_at: moment(),
+      cancelled_at: null,
       received_at: null,
       process_status: 'awaiting',
     };
@@ -21,8 +22,19 @@ export default class Purchase extends Model {
     this.afterSetData = () => {
       this.schedule_date = moment(this.schedule_date);
       this.created_at = moment(this.created_at);
-      this.received_at = this.received_at ? moment(this.schedule_date) : null;
+      this.received_at = this.received_at ? moment(this.received_at) : null;
+      this.cancelled_at = this.cancelled_at ? moment(this.cancelled_at) : null;
     };
+  }
+
+  @computed
+  get canBeCancelled() {
+    return !['canceled', 'received'].includes(this.status);
+  }
+
+  @computed
+  get canBeMarkedAsReceived() {
+    return !['canceled', 'received'].includes(this.status);
   }
 
   @computed
@@ -48,7 +60,7 @@ export default class Purchase extends Model {
   @computed
   get statusColor() {
     const statusColorMap = {
-      closed: 'red',
+      cancelled: 'red',
       received: 'green',
       awaiting: 'orange',
     };
@@ -63,6 +75,11 @@ export default class Purchase extends Model {
       awaiting: 'En espera',
     };
     return statusMap[this.process_status];
+  }
+
+  @computed
+  get receivedDelayed() {
+    return moment(this.schedule_date).format('L') !== moment(this.received_at).format('L');
   }
 
   toJson() {
