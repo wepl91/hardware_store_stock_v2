@@ -17,7 +17,7 @@ export default class Purchase extends Model {
 
     let attrs = Object.assign(defaultAttributes, attributes);
     super(attrs, store);
-  
+
     this.afterSetData = () => {
       this.schedule_date = moment(this.schedule_date);
       this.created_at = moment(this.created_at);
@@ -29,12 +29,20 @@ export default class Purchase extends Model {
   get providerModel() {
     return new Provider(this.toJS()?.get('provider'), this.store.appStore.stores.get('providers'));
   }
-  
+
   @computed
   get productsModel() {
-    return this.toJS()?.get('products')?.map(prod => (
-      new Product(prod, this.store.appStore.stores.get('products'))
-    ))
+    return this.toJS()?.get('products')?.map(prod => ({
+      product: new Product(prod.product, this.store.appStore.stores.get('products')),
+      quantity: prod.quantity,
+    }));
+  }
+
+  @computed
+  get productsCount() {
+    return this.toJS()?.get('products').reduce((total, prod) => {
+      return parseInt(prod.quantity) + parseInt(total);
+    }, 0);
   }
 
   @computed
@@ -56,7 +64,7 @@ export default class Purchase extends Model {
     };
     return statusMap[this.process_status];
   }
-    
+
   toJson() {
     const jsonObject = Object.fromEntries(this.toJS());
     jsonObject.provider = Object.fromEntries(jsonObject.provider.attributes);

@@ -9,7 +9,11 @@ import {
   Button,
   Heading,
   Badge,
+  IconButton,
 } from "@chakra-ui/react";
+import {
+  InfoOutlineIcon,
+} from '@chakra-ui/icons'
 
 import { FiShoppingBag } from "react-icons/fi";
 
@@ -42,14 +46,15 @@ class Purchases extends Component {
   }
 
   getColumns() {
+    const { router } = this.props;
     return ([
       {
         label: '',
-        content: () => <FiShoppingBag fontSize="1.5rem" color="#319795"/>
+        content: () => <FiShoppingBag fontSize="1.5rem" color="#319795" />
       },
       {
         label: 'Proveedor',
-        content: (data) => data.providerModel.cookedName || '-',
+        content: (data) => data.providerModel.cookedName || '-',
       },
       {
         label: 'Fecha de creación',
@@ -67,6 +72,17 @@ class Purchases extends Component {
           >{data.cookedStatus}</Badge>,
         align: 'center'
       },
+      {
+        label: '',
+        content: (data) =>
+          <IconButton
+            isRound
+            variant="ghost"
+            colorScheme="teal"
+            icon={<InfoOutlineIcon />}
+            onClick={() => router.push(`/purchases/${data?.id}`)}
+          />
+      }
     ]);
   }
 
