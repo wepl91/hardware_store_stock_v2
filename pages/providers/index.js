@@ -116,8 +116,9 @@ class Providers extends Component {
         <InputGroup mt="3em" mb="-2em" w="30%">
           <InputLeftElement
             pointerEvents="none"
-            children={<SearchIcon color="gray.300" />}
-          />
+          >
+            <SearchIcon color="gray.300" />
+          </InputLeftElement>
           <Input 
             focusBorderColor="teal.400" 
             type="search" 

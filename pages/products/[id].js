@@ -128,7 +128,7 @@ const ProductDetails = observer(({ stores, router }) => {
           </Center>
         </Flex>
         {!product?.isBusy() && !product?.providers.length ? (
-          <div class={styles['no-providers-container']}>
+          <div className={styles['no-providers-container']}>
             <Text>Este producto no tiene ningún proveedor asignado</Text>
             <Text>Selecciona un proveedor y comienza a armar tu equipo de trabajo!</Text>
             <SelectTeam className={styles['no-providers']} />

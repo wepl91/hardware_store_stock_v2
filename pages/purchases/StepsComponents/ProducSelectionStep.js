@@ -65,8 +65,9 @@ const ProductSelection = observer(({ stores, onChange, currentProducts = [] }) =
       <InputGroup mb="1em" w="100%">
         <InputLeftElement
           pointerEvents="none"
-          children={<SearchIcon color="gray.300" />}
-        />
+        >
+          <SearchIcon color="gray.300" />
+        </InputLeftElement>
         <Input
           focusBorderColor="teal.400"
           type="search"
@@ -75,9 +76,10 @@ const ProductSelection = observer(({ stores, onChange, currentProducts = [] }) =
         />
       </InputGroup>
       {!products || !products?.length && renderEmptyMessage()}
-      {products && !products.isOk() && stores?.products?.getDummy(5).map(prod => <ProductSelectableRow product={prod} />)}
-      {products?.isOk() && products?.toArray()?.map(prod =>
+      {products && !products.isOk() && stores?.products?.getDummy(5).map((prod, index) => <ProductSelectableRow key={index} product={prod} />)}
+      {products?.isOk() && products?.toArray()?.map((prod, index) =>
         <ProductSelectableRow
+          key={index}
           withProviderSelection
           withQuantitySelection
           isSelected={selectedProducts.find(sp => sp?.product?.id === prod.id)}

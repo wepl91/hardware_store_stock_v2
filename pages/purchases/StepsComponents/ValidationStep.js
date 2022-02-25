@@ -42,8 +42,9 @@ const ValidationStep = observer(({ purchase, stores, onCookedPurchases = () => {
   }, []);
 
   const renderCards = () => {
-    return purchaseList.map(p =>
+    return purchaseList.map((p, index) =>
       <PurchaseCard
+        key={index}
         purchase={p}
       />
     );
