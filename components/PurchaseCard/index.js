@@ -34,6 +34,7 @@ const PurchaseCard = ({ purchase }) => {
       <Text mt="1em" mb="0.5em" fontWeight="600">Productos</Text>
       {purchase.products.map((p, index) => (
         <Flex
+          key={index}
           pt="0.5em"
           pb="0.5em"
           align="center"

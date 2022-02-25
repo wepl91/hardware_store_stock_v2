@@ -30,6 +30,12 @@ const ProvidersSelectionModal = observer(({
   currentProviders,
   oneSelection = false,
 }) => {
+  const { getRootProps, getRadioProps } = useRadioGroup({
+    name: "provider",
+    onChange: (providerID) => {
+      setSelectedProviders(providers.filter(p => p.id !== providerID));
+    },
+  });
   const [selectedProviders, setSelectedProviders] = useState(currentProviders || []);
   const addProvider = (provider) => {
     setSelectedProviders([
@@ -105,13 +111,6 @@ const ProvidersSelectionModal = observer(({
         </Box>
       )
     };
-
-    const { getRootProps, getRadioProps } = useRadioGroup({
-      name: "provider",
-      onChange: (providerID) => {
-        setSelectedProviders(providers.filter(p => p.id !== providerID));
-      },
-    });
 
     const group = getRootProps();
     return (

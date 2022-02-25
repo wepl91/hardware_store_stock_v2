@@ -51,7 +51,7 @@ const ProductForm = observer(({ product, onChange, disabled }) => {
         <Stack w="30%">
           <Text mb="8px">Precio</Text>
           <InputGroup>
-            <InputLeftAddon children="$" />
+            <InputLeftAddon>$</InputLeftAddon>
             <Input
               focusBorderColor="teal.400"
               isDisabled={product?.isBusy() || disabled}

@@ -45,7 +45,7 @@ const ProviderForm = observer(({ provider, onChange, disabled }) => {
         <Stack w="30%">
           <Text mb="8px">Teléfono</Text>
           <InputGroup>
-            <InputLeftAddon children="+54" />
+            <InputLeftAddon>+54</InputLeftAddon>
             <Input
               focusBorderColor="teal.400"
               isDisabled={provider?.isBusy() || disabled}
