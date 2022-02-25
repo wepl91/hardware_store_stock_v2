@@ -15,7 +15,7 @@ import {
 } from '@chakra-ui/react';
 import { Step, Steps, useSteps } from 'chakra-ui-steps';
 
-import { ProductSelectionStep, ValidationStep } from './StepsComponents';
+import { ProductSelectionStep, ValidationStep } from '../../components/StepsComponents';
 import DatePicker from '../../components/DatePicker';
 
 import styles from './styles/Details.module.scss';

@@ -13,10 +13,10 @@ import {
   SearchIcon,
 } from '@chakra-ui/icons'
 
-import ProductSelectableRow from '../../../components/ProductSelectableRow';
+import ProductSelectableRow from '../ProductSelectableRow';
 
 import { cloneDeep } from 'lodash';
-import useUpdateEffect from '../../../hooks/useUpdateEffect';
+import useUpdateEffect from '../../hooks/useUpdateEffect';
 
 import styles from './Steps.module.scss';
 

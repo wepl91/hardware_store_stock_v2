@@ -7,7 +7,7 @@ import {
   Heading,
 } from '@chakra-ui/react';
 
-import PurchaseCard from '../../../components/PurchaseCard';
+import PurchaseCard from '../PurchaseCard';
 
 import moment from 'moment';
 
